@@ -435,6 +435,11 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.17.15.tgz#c2e737f3a201ebff8e2ac2b8e9f246b397ad19b8"
   integrity sha512-DjDa9ywLUUmjhV2Y9wUTIF+1XsmuFGvZoCmOWkli1XcNAh5t25cc7fgsCx4Zi/Uurep3TTLyDiKATgGEg61pkA==
 
+"@fontsource/eb-garamond@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/eb-garamond/-/eb-garamond-4.5.11.tgz#c25a7b9d112e98d1fe382ce656e856b338ae53d0"
+  integrity sha512-LwhKdD20iu3/Bzf7BCUg6YXwSFS0ouaCQJj0d+pZStKQlGiH/J5BGB8bhEqVeRdsoNRYyCs9IX9lIXpjvPOnRQ==
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"

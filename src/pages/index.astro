@@ -1,13 +1,27 @@
 ---
+import type { ClevelandArt } from "../interfaces/IClevelandArt";
 import Layout from "../layouts/Layout.astro";
 const response = await fetch(
   "https://openaccess-api.clevelandart.org/api/artworks?limit=10&has_image=1"
 );
-const data = await response.json();
+const data: ClevelandArt | undefined = await response.json();
 ---
 
-<Layout title="ArtTem">
-  <main class="max-w-screen-2xl mx-auto p-6">
-    <p>{JSON.stringify(data)}</p>
+<Layout title="ArtGal">
+  <main class="max-w-screen-2xl mx-auto p-6 min-h-screen flex flex-col">
+    <h1 class="text-2xl">{"ArtGal"}</h1>
+    <div class="flex flex-col flex-1 bg-red-300">
+      {
+        data?.data.map((item) => (
+          <div class="flex flex-col">
+            <img src={item.images.web.url} />
+            <div class="flex flex-col">
+              <h1>{item.title}</h1>
+              <p>{item.creators[0].description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
   </main>
 </Layout>

@@ -32,7 +32,7 @@ export type Provenance = {
   date: string;
 };
 
-export type WebImage = {
+export type ArtImage = {
   url: string;
   width: string;
   height: string;
@@ -43,18 +43,9 @@ export type WebImage = {
 export type AlternateImage = {
   date_created: string;
   annotation: string;
-  web: {
-    url: string;
-    width: string;
-    height: string;
-    filesize: string;
-  };
-  print: {
-    url: string;
-    width: string;
-    height: string;
-    filesize: string;
-  };
+  web: ArtImage;
+  print: ArtImage;
+  full: ArtImage;
 };
 
 export type ExternalResources = {
@@ -74,10 +65,26 @@ export type Citation = {
 };
 
 export type Images = {
-  weg: WebImage;
+  web: ArtImage;
+  print: ArtImage;
+  full: ArtImage;
 };
 
-export type ClevelandArt = {
+export type CreatorRole = "artist";
+
+export type Creator = {
+  id: 2659;
+  description: string;
+  extent: string | null;
+  qualifier: string | null;
+  role: CreatorRole;
+  biography: string | null;
+  name_in_original_language: string | null;
+  birth_year: string;
+  death_year: string;
+};
+
+export type ClevelandArtItem = {
   id: number;
   accession_number: string;
   share_license_status: string;
@@ -113,4 +120,24 @@ export type ClevelandArt = {
   url: string;
   images: Images;
   alternate_images: AlternateImage[];
+  creditline: string;
+  sketchfab_id: string | null;
+  sketchfab_url: string | null;
+  athena_id: 93014;
+  creators: Creator[];
+  updated_at: string;
+};
+
+export type Info = {
+  total: number;
+  parameters: {
+    limit?: number;
+    skip?: number;
+    has_image?: "1" | "0";
+  };
+};
+
+export type ClevelandArt = {
+  info: Info;
+  data: ClevelandArtItem[];
 };
