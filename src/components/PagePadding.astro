@@ -1,0 +1,17 @@
+---
+export interface Props {
+  horizontal?: boolean;
+  vertical?: boolean;
+  className?: string;
+}
+
+const { horizontal, vertical, className } = Astro.props;
+---
+
+<div
+  class={`${className} ${horizontal ?? true ? "px-6" : ""} ${
+    vertical ?? true ? "py-6" : ""
+  }`}
+>
+  <slot />
+</div>
