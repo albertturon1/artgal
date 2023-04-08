@@ -11,7 +11,7 @@ const { className = "", showValue = true } = Astro.props;
 
 {
   showValue ? (
-    <p class={twMerge("text-xl md:text-lg w-full leading-8", className)}>
+    <p class={twMerge("text-xl md:text-lg w-full", className)}>
       <slot />
     </p>
   ) : null

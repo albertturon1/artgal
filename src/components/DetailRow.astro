@@ -21,7 +21,17 @@ const {
   <DetailRowTitle showTitle={showTitle} className={titleClassName}>
     {title}
   </DetailRowTitle>
-  <DetailRowValue showValue={showValue} className={valueClassName}>
-    {value}
-  </DetailRowValue>
+  {
+    Array.isArray(value) ? (
+      value.map((v) => (
+        <DetailRowValue showValue={showValue} className={valueClassName}>
+          {v}
+        </DetailRowValue>
+      ))
+    ) : (
+      <DetailRowValue showValue={showValue} className={valueClassName}>
+        {value}
+      </DetailRowValue>
+    )
+  }
 </div>

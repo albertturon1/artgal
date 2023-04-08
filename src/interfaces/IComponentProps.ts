@@ -11,7 +11,7 @@ export type DetailRowTitleProps = {
 
 export type DetailRowValueProps = {
   showValue?: true | undefined;
-  value: string
+  value: string | string[]
   containerClassName?: string;
 } | {
   showValue: false | undefined;

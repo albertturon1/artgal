@@ -13,3 +13,7 @@ export function artImagesSource(images: Images) {
 export function creatorFullname(fullname: string) {
   return fullname.split("(")[0];
 }
+
+export function capitalize(str: string) {
+  return str.slice(0, 1).toUpperCase() + str.slice(1);
+}
