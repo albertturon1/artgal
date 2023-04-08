@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/image": "^0.16.5",
     "@astrojs/tailwind": "^3.1.1",
     "@astrojs/vercel": "^3.2.2",
     "@fontsource/playfair-display": "^4.5.13",
