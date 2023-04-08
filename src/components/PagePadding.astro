@@ -9,7 +9,7 @@ const { horizontal, vertical, className = "" } = Astro.props;
 ---
 
 <div
-  class={`${horizontal ?? true ? "px-3 lg:px-5" : ""} ${
+  class={`flex flex-col ${horizontal ?? true ? "px-3 lg:px-5" : ""} ${
     vertical ?? true ? "py-3 lg:py-5" : ""
   } ${className}`}
 >
