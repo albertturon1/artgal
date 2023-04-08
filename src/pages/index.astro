@@ -6,7 +6,7 @@ import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
 
 const { data: artworksResponse } = await getArtworks({
-  limit: 21,
+  limit: 12,
 });
 const data = artworksResponse?.data ?? [];
 ---

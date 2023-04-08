@@ -1,4 +1,4 @@
-import type { Images } from "@interfaces/IClevelandArt";
+import type { Images } from "@interfaces/IArt";
 import queryString from "query-string";
 
 export function genQueryString(params: object | undefined) {

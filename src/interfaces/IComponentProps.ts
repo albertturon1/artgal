@@ -1,4 +1,4 @@
-import type { ArtItem } from "./IClevelandArt";
+import type { ArtItem } from "./IArt";
 
 export type DetailRowTitleProps = {
   showTitle?: true | undefined;
