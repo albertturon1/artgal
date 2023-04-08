@@ -1,0 +1,48 @@
+---
+import type { ArtItem } from "@interfaces/IClevelandArt";
+import { twMerge } from "tailwind-merge";
+import PaintingWithDetails from "./PaintingWithDetails.astro";
+import type { PaintingWithDetailsProps } from "@interfaces/IPaintingWithDetails";
+
+export interface Props extends Omit<PaintingWithDetailsProps, "item"> {
+  data: ArtItem[];
+  className?: string;
+}
+const { data, className = "", ...props } = Astro.props;
+const dataLength = data.length;
+
+//used where there are more than 3 artworks and want to create 3 columns for better UI
+const n = 3; // number of subarrays
+const partSize = Math.floor(dataLength / n); // calculate size of each part
+const remainder = dataLength % n; // calculate remainder
+
+const parts = []; // initialize parts array
+
+for (let i = 0, j = 0; i < n; i++) {
+  const extra = i < remainder ? 1 : 0; // add 1 if remainder needs to be reduced
+  const end = j + partSize + extra;
+
+  parts.push(data.slice(j, end));
+  j = end;
+}
+---
+
+<div class={twMerge("grid grid-cols-1 sm:grid-cols-3 gap-4", className)}>
+  {
+    dataLength > 3
+      ? parts.map((column) => (
+          <div class="flex flex-col gap-4">
+            {column.map((item) => (
+              <PaintingWithDetails {...props} item={item} />
+            ))}
+          </div>
+        ))
+      : data.map((item) => (
+          <PaintingWithDetails
+            {...props}
+            item={item}
+            itemClassName="w-full h-min"
+          />
+        ))
+  }
+</div>

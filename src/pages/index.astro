@@ -1,7 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Gallery from "@components/Gallery.astro";
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
+import Layout from "@layouts/Layout.astro";
+import { getArtworks } from "src/api/ClevelandArtAPI";
+
+const { data: artworksResponse } = await getArtworks({
+  limit: 21,
+});
+const data = artworksResponse?.data ?? [];
 ---
 
-<Layout title="ArtTem">
-  <main class="max-w-screen-2xl mx-auto p-6"></main>
+<Layout title="Artgal">
+  <PageMaxWidth>
+    <PagePadding>
+      <Gallery data={data} />
+    </PagePadding>
+  </PageMaxWidth>
 </Layout>

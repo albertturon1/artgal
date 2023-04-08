@@ -1,0 +1,58 @@
+---
+import DetailRow from "@components/DetailRow.astro";
+import DetailRowTitle from "@components/DetailRowTitle.astro";
+import Gallery from "@components/Gallery.astro";
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
+import Layout from "@layouts/Layout.astro";
+import { getArtist, getArtworks } from "src/api/ClevelandArtAPI";
+
+const { id = "" } = Astro.params;
+const name = Astro.url.searchParams.get("name");
+
+const { data: artistResponse, isError: isError } = await getArtist({
+  id,
+});
+const artist = artistResponse?.data;
+
+const { data: artworksResponse } = await getArtworks({
+  artists: name,
+  limit: 21,
+});
+const artworks = artworksResponse?.data ?? [];
+---
+
+<Layout title={artist ? artist.name : "Artwork not found"}>
+  <PageMaxWidth>
+    <PagePadding>
+      {
+        !isError && artist ? (
+          <div class="flex flex-col flex-1 gap-y-7">
+            <h1 class="text-3xl uppercase">{artist.name}</h1>
+            <div class="flex flex-col gap-y-3">
+              <DetailRow title="Nationality" value={artist.nationality} />
+              <DetailRow
+                title="Lifetime"
+                value={`${artist.birth_year}-${artist.death_year}`}
+              />
+            </div>
+            <DetailRow
+              rowClassName="text-xl"
+              title="Biography"
+              value={
+                artist.biography ??
+                "A biography has not been created for the selected artist."
+              }
+            />
+            <div class="gap-y-3 flex flex-col">
+              <DetailRowTitle>{"Artworks"}</DetailRowTitle>
+              <Gallery data={artworks} />
+            </div>
+          </div>
+        ) : (
+          <h1>{"Artist not found"}</h1>
+        )
+      }
+    </PagePadding>
+  </PageMaxWidth>
+</Layout>

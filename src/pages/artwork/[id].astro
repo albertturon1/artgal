@@ -1,0 +1,92 @@
+---
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
+import DetailRow from "@components/DetailRow.astro";
+import DetailRowValue from "@components/DetailRowValue.astro";
+import DetailRowTitle from "@components/DetailRowTitle.astro";
+import Painting from "@components/Painting.astro";
+import ArtistArtworks from "@components/ArtistArtworks.astro";
+import Layout from "@layouts/Layout.astro";
+import { getArtwork, getArtworks } from "src/api/ClevelandArtAPI";
+import { creatorFullname } from "src/utils/misc";
+import NotFound from "@components/NotFound.astro";
+
+const { id } = Astro.params;
+
+const { data: response, isError } = await getArtwork({ id });
+
+const creatorsArtworksQueries =
+  response && !isError
+    ? response.data.creators.map((creator) =>
+        getArtworks({ artists: creatorFullname(creator.description) })
+      )
+    : [];
+
+const creatorsArtworks = await Promise.all(creatorsArtworksQueries);
+const artworks = creatorsArtworks
+  .flatMap(({ data: creator }) => creator?.data ?? [])
+  .filter((artwork) => artwork.id !== Number(id));
+
+const numberOfCreators = response?.data.creators.length ?? 0;
+---
+
+<Layout title={response?.data.title ?? "Artwork not found"}>
+  <PageMaxWidth>
+    {
+      isError || !id ? (
+        <NotFound />
+      ) : (
+        <>
+          <PagePadding>
+            <div class="flex flex-col md:flex-row flex-1 gap-x-4 lg:gap-x-8">
+              <div class="flex-1 min-w-3/5">
+                <Painting
+                  images={response.data.images}
+                  className="w-full h-full"
+                />
+              </div>
+              <div class="flex flex-col flex-1 gap-y-4 md:gap-y-5 pt-4 md:pt-2">
+                <div class="flex flex-col">
+                  <DetailRowTitle>
+                    {numberOfCreators === 1 ? "Creator" : "Creators"}
+                  </DetailRowTitle>
+                  {response.data.creators.map((creator) => {
+                    const artistName = creator.description.split("(")[0];
+                    return (
+                      <a
+                        href={`/artist/${creator.id}?name=${artistName}`}
+                        class="text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                        <DetailRowValue>{artistName}</DetailRowValue>
+                      </a>
+                    );
+                  })}
+                </div>
+                <DetailRow title="Title" value={response.data.title} />
+                <DetailRow
+                  title="Current location"
+                  value={response.data.current_location ?? "Unknown"}
+                />
+                <DetailRow
+                  title="Creation date"
+                  value={response.data.creation_date ?? "Unknown"}
+                />
+              </div>
+            </div>
+            <div class="pt-10 gap-y-4">
+              <ArtistArtworks
+                artworks={artworks}
+                showArtist={!!numberOfCreators}
+                title={
+                  !!numberOfCreators
+                    ? "More creator's artworks"
+                    : "More creator artworks"
+                }
+              />
+            </div>
+          </PagePadding>
+        </>
+      )
+    }
+  </PageMaxWidth>
+</Layout>
