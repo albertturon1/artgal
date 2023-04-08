@@ -1,18 +1,37 @@
 ---
+import type { DetailRowProps } from "@interfaces/IComponentProps";
 import DetailRowValue from "./DetailRowValue.astro";
 import DetailRowTitle from "./DetailRowTitle.astro";
+import { twMerge } from "tailwind-merge";
 
-export interface Props {
-  title: string;
-  value: string;
-  titleClassName?: string;
-  rowClassName?: string;
-}
+export type Props = DetailRowProps;
 
-const { title, value, titleClassName, rowClassName } = Astro.props;
+const {
+  title,
+  value,
+  titleClassName = "",
+  valueClassName = "",
+  containerClassName = "",
+  showValue = true,
+  showTitle = true,
+} = Astro.props;
 ---
 
-<div class="flex flex-col">
-  <DetailRowTitle className={titleClassName}>{title}</DetailRowTitle>
-  <DetailRowValue className={rowClassName}>{value}</DetailRowValue>
+<div class={twMerge("flex flex-col", containerClassName)}>
+  <DetailRowTitle showTitle={showTitle} className={titleClassName}>
+    {title}
+  </DetailRowTitle>
+  {
+    Array.isArray(value) ? (
+      value.map((v) => (
+        <DetailRowValue showValue={showValue} className={valueClassName}>
+          {v}
+        </DetailRowValue>
+      ))
+    ) : (
+      <DetailRowValue showValue={showValue} className={valueClassName}>
+        {value}
+      </DetailRowValue>
+    )
+  }
 </div>

@@ -8,7 +8,7 @@ import Painting from "@components/Painting.astro";
 import ArtistArtworks from "@components/ArtistArtworks.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtwork, getArtworks } from "src/api/ClevelandArtAPI";
-import { creatorFullname } from "src/utils/misc";
+import { capitalize, creatorFullname } from "src/utils/misc";
 import NotFound from "@components/NotFound.astro";
 
 const { id } = Astro.params;
@@ -26,7 +26,6 @@ const creatorsArtworks = await Promise.all(creatorsArtworksQueries);
 const artworks = creatorsArtworks
   .flatMap(({ data: creator }) => creator?.data ?? [])
   .filter((artwork) => artwork.id !== Number(id));
-
 const numberOfCreators = response?.data.creators.length ?? 0;
 ---
 
@@ -38,20 +37,20 @@ const numberOfCreators = response?.data.creators.length ?? 0;
       ) : (
         <>
           <PagePadding>
-            <div class="flex flex-col md:flex-row flex-1 gap-x-4 lg:gap-x-8">
-              <div class="flex-1 min-w-3/5">
+            <div class="flex flex-col md:flex-row w-full md:h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
+              <div class="h-full">
                 <Painting
                   images={response.data.images}
                   className="w-full h-full"
                 />
               </div>
-              <div class="flex flex-col flex-1 gap-y-4 md:gap-y-5 pt-4 md:pt-2">
+              <div class="flex flex-col flex-1 gap-y-4 md:gap-y-4 pt-4 md:pt-1">
                 <div class="flex flex-col">
                   <DetailRowTitle>
                     {numberOfCreators === 1 ? "Creator" : "Creators"}
                   </DetailRowTitle>
                   {response.data.creators.map((creator) => {
-                    const artistName = creator.description.split("(")[0];
+                    const artistName = creatorFullname(creator.description);
                     return (
                       <a
                         href={`/artist/${creator.id}?name=${artistName}`}
@@ -64,21 +63,37 @@ const numberOfCreators = response?.data.creators.length ?? 0;
                 </div>
                 <DetailRow title="Title" value={response.data.title} />
                 <DetailRow
-                  title="Current location"
-                  value={response.data.current_location ?? "Unknown"}
+                  title="Collection"
+                  value={response.data.collection ?? "Unknown"}
                 />
                 <DetailRow
                   title="Creation date"
                   value={response.data.creation_date ?? "Unknown"}
                 />
+                <DetailRow
+                  title="Culture"
+                  value={response.data.culture ?? "Unknown"}
+                />
+                <DetailRow
+                  title="Technique"
+                  value={capitalize(response.data.technique) ?? "Unknown"}
+                />
+                <DetailRow
+                  title="Dimensions framed"
+                  value={
+                    `${response.data.dimensions.framed.width * 100}cm x ${
+                      response.data.dimensions.framed.height * 100
+                    }cm` ?? "Unknown"
+                  }
+                />
               </div>
             </div>
             <div class="pt-10 gap-y-4">
               <ArtistArtworks
-                artworks={artworks}
-                showArtist={!!numberOfCreators}
+                data={artworks}
+                showArtist={numberOfCreators === 1}
                 title={
-                  !!numberOfCreators
+                  numberOfCreators > 1
                     ? "More creator's artworks"
                     : "More creator artworks"
                 }
