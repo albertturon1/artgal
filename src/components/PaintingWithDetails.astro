@@ -2,11 +2,10 @@
 import { twMerge } from "tailwind-merge";
 import Painting from "./Painting.astro";
 
-import type { ArtItem } from "@interfaces/IClevelandArt";
+import type { ArtItem } from "@interfaces/IArt";
 import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
 import { creatorFullname } from "src/utils/misc";
-import DetailRowTitle from "./DetailRowTitle.astro";
-import DetailRowValue from "./DetailRowValue.astro";
+import DetailRow from "./DetailRow.astro";
 
 export type Props = DetailRowBooleanProps & {
   item: ArtItem;
@@ -20,10 +19,7 @@ const {
   itemClassName = "",
 } = Astro.props;
 
-const creators =
-  item.creators.length > 1
-    ? item.creators.map((c) => creatorFullname(c.description))
-    : creatorFullname(item.creators[0].description);
+const creators = item.creators.map((c) => creatorFullname(c.description));
 ---
 
 <a
@@ -34,15 +30,11 @@ const creators =
   <div
     class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
   >
-    <DetailRowTitle showTitle={showTitle}>{item.title}</DetailRowTitle>
-    {
-      Array.isArray(creators) ? (
-        creators.map((c) => (
-          <DetailRowValue showValue={showValue}>{c}</DetailRowValue>
-        ))
-      ) : (
-        <DetailRowValue showValue={showValue}>{creators}</DetailRowValue>
-      )
-    }
+    <DetailRow
+      showTitle={showTitle}
+      title={item.title}
+      showValue={showValue}
+      value={creators}
+    />
   </div>
 </a>

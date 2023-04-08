@@ -5,7 +5,7 @@ import type {
   ArtItem,
   Artist,
   ArtworksParams,
-} from "@interfaces/IClevelandArt";
+} from "@interfaces/IArt";
 import api from "src/utils/api";
 
 export async function getArtist({

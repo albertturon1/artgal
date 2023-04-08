@@ -14,11 +14,15 @@ import NotFound from "@components/NotFound.astro";
 const { id } = Astro.params;
 
 const { data: response, isError } = await getArtwork({ id });
+const numberOfCreators = response?.data.creators.length ?? 0;
 
 const creatorsArtworksQueries =
   response && !isError
     ? response.data.creators.map((creator) =>
-        getArtworks({ artists: creatorFullname(creator.description) })
+        getArtworks({
+          artists: creatorFullname(creator.description),
+          limit: Math.ceil(9 / numberOfCreators),
+        })
       )
     : [];
 
@@ -26,7 +30,6 @@ const creatorsArtworks = await Promise.all(creatorsArtworksQueries);
 const artworks = creatorsArtworks
   .flatMap(({ data: creator }) => creator?.data ?? [])
   .filter((artwork) => artwork.id !== Number(id));
-const numberOfCreators = response?.data.creators.length ?? 0;
 ---
 
 <Layout title={response?.data.title ?? "Artwork not found"}>
@@ -78,14 +81,27 @@ const numberOfCreators = response?.data.creators.length ?? 0;
                   title="Technique"
                   value={capitalize(response.data.technique) ?? "Unknown"}
                 />
-                <DetailRow
-                  title="Dimensions framed"
-                  value={
-                    `${response.data.dimensions.framed.width * 100}cm x ${
-                      response.data.dimensions.framed.height * 100
-                    }cm` ?? "Unknown"
-                  }
-                />
+                {response.data.dimensions.framed && (
+                  <DetailRow
+                    title="Dimensions framed"
+                    value={
+                      `${response.data.dimensions.framed.width * 100}cm x ${
+                        response.data.dimensions.framed.height * 100
+                      }cm` ?? "Unknown"
+                    }
+                  />
+                )}
+                {!response.data.dimensions.framed &&
+                  response.data.dimensions.unframed && (
+                    <DetailRow
+                      title="Dimensions unframed"
+                      value={
+                        `${response.data.dimensions.unframed.width * 100}cm x ${
+                          response.data.dimensions.unframed.height * 100
+                        }cm` ?? "Unknown"
+                      }
+                    />
+                  )}
               </div>
             </div>
             <div class="pt-10 gap-y-4">
