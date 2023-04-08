@@ -64,16 +64,17 @@ export type Citation = {
   url: null;
 };
 
+//images can be empty object
 export type Images = {
-  web: ArtImage;
-  print: ArtImage;
-  full: ArtImage;
+  web: ArtImage | null;
+  print: ArtImage | null;
+  full: ArtImage | null;
 };
 
 export type CreatorRole = "artist";
 
 export type Creator = {
-  id: 2659;
+  id: number;
   description: string;
   extent: string | null;
   qualifier: string | null;
@@ -84,16 +85,16 @@ export type Creator = {
   death_year: string;
 };
 
-export type ClevelandArtItem = {
+export type ArtItem = {
   id: number;
   accession_number: string;
   share_license_status: string;
   tombstone: string;
-  current_location: string;
+  current_location: string | null;
   title: string;
-  creation_date: string;
-  creation_date_earliest: number;
-  creation_date_latest: number;
+  creation_date: string | null;
+  creation_date_earliest: number | null;
+  creation_date_latest: number | null;
   artists_tags: string[];
   culture: string[];
   technique: string;
@@ -123,7 +124,7 @@ export type ClevelandArtItem = {
   creditline: string;
   sketchfab_id: string | null;
   sketchfab_url: string | null;
-  athena_id: 93014;
+  athena_id: number;
   creators: Creator[];
   updated_at: string;
 };
@@ -139,5 +140,41 @@ export type Info = {
 
 export type ClevelandArt = {
   info: Info;
-  data: ClevelandArtItem[];
+  data: ArtItem[];
 };
+
+export type ArtistArtwork = {
+  id: string;
+  accession_number: string;
+  title: string;
+  tombstone: string;
+  url: string;
+};
+
+export type Artist = {
+  name: string;
+  nationality: string;
+  description: string;
+  biography: string | null;
+  birth_year: string;
+  death_year: string;
+  id: number;
+  artworks: ArtItem[];
+};
+
+export type ArtworksParams = {
+  indent?: number; //Number of spaces to indent JSON content if "pretty" formatting is desired.
+  skip?: number;
+  limit?: number;
+};
+
+export type ArtDataResponse<T> = {
+  data: T;
+};
+export type ArtDataInfoResponse<T> = ArtDataResponse<T> & {
+  info: Info;
+};
+
+export interface ArtErrorResponse {
+  detail: string;
+}

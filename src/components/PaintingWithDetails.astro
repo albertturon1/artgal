@@ -1,0 +1,30 @@
+---
+import { twMerge } from "tailwind-merge";
+import Painting from "./Painting.astro";
+import type { PaintingWithDetailsProps } from "@interfaces/IPaintingWithDetails";
+
+export type Props = PaintingWithDetailsProps;
+
+const {
+  item,
+  showArtist = true,
+  showTitle = true,
+  itemClassName = "",
+} = Astro.props;
+---
+
+<a
+  href={`/artwork/${item.id.toString()}`}
+  class={twMerge(
+    "flex flex-col cursor-pointer relative bg-red-300",
+    itemClassName
+  )}
+>
+  <Painting images={item.images} />
+  <div
+    class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
+  >
+    {showTitle && <h1 class="uppercase text-lg">{item.title}</h1>}
+    {showArtist && <p class="text-lg text-white/90">{item.creators[0].description}</p>}
+  </div>
+</a>

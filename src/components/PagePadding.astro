@@ -5,13 +5,13 @@ export interface Props {
   className?: string;
 }
 
-const { horizontal, vertical, className } = Astro.props;
+const { horizontal, vertical, className = "" } = Astro.props;
 ---
 
 <div
-  class={`${className} ${horizontal ?? true ? "px-6" : ""} ${
-    vertical ?? true ? "py-6" : ""
-  }`}
+  class={`${horizontal ?? true ? "px-3 lg:px-5" : ""} ${
+    vertical ?? true ? "py-3 lg:py-5" : ""
+  } ${className}`}
 >
   <slot />
 </div>
