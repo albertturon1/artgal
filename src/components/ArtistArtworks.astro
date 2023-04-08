@@ -1,22 +1,20 @@
 ---
-import type { ArtItem } from "@interfaces/IClevelandArt";
 import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
-import type { PaintingWithDetailsProps } from "@interfaces/IPaintingWithDetails";
+import type { GalleryProps } from "@interfaces/IComponentProps";
 
-export interface Props extends Omit<PaintingWithDetailsProps, "item"> {
-  artworks: ArtItem[];
+export type Props = GalleryProps & {
   title?: string;
-}
+};
 
-const { artworks, title, ...props } = Astro.props;
+const { title, ...props } = Astro.props;
 ---
 
 {
-  !!artworks.length && (
+  !!props.data.length && (
     <div class="flex flex-col w-full gap-y-4">
       {!!title && <DetailRowTitle className="text-xl">{title}</DetailRowTitle>}
-      <Gallery data={artworks} {...props} />
+      <Gallery {...props} />
     </div>
   )
 }

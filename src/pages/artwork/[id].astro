@@ -38,8 +38,8 @@ const numberOfCreators = response?.data.creators.length ?? 0;
       ) : (
         <>
           <PagePadding>
-            <div class="flex flex-col md:flex-row flex-1 gap-x-4 lg:gap-x-8">
-              <div class="flex-1 min-w-3/5">
+            <div class="flex flex-col md:flex-row w-full md:h-[70vh] gap-x-4 lg:gap-x-8">
+              <div class="h-full">
                 <Painting
                   images={response.data.images}
                   className="w-full h-full"
@@ -51,7 +51,7 @@ const numberOfCreators = response?.data.creators.length ?? 0;
                     {numberOfCreators === 1 ? "Creator" : "Creators"}
                   </DetailRowTitle>
                   {response.data.creators.map((creator) => {
-                    const artistName = creator.description.split("(")[0];
+                    const artistName = creatorFullname(creator.description);
                     return (
                       <a
                         href={`/artist/${creator.id}?name=${artistName}`}
@@ -75,10 +75,10 @@ const numberOfCreators = response?.data.creators.length ?? 0;
             </div>
             <div class="pt-10 gap-y-4">
               <ArtistArtworks
-                artworks={artworks}
-                showArtist={!!numberOfCreators}
+                data={artworks}
+                showArtist={numberOfCreators === 1}
                 title={
-                  !!numberOfCreators
+                  numberOfCreators > 1
                     ? "More creator's artworks"
                     : "More creator artworks"
                 }

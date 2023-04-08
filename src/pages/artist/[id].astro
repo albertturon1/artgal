@@ -2,8 +2,8 @@
 import DetailRow from "@components/DetailRow.astro";
 import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
+import NotFound from "@components/NotFound.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
-import PageMaxWidth from "@components/NotFound.astro";
 import PagePadding from "@components/PagePadding.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtist, getArtworks } from "src/api/ClevelandArtAPI";
@@ -38,7 +38,7 @@ const artworks = artworksResponse?.data ?? [];
               />
             </div>
             <DetailRow
-              rowClassName="text-xl"
+              containerClassName="text-xl"
               title="Biography"
               value={
                 artist.biography ??

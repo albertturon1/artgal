@@ -1,12 +1,18 @@
 ---
+import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
 import { twMerge } from "tailwind-merge";
-export interface Props {
-  className?: string;
-}
 
-const { className = "" } = Astro.props;
+export type Props = Pick<DetailRowBooleanProps, "showTitle"> & {
+  className?: string;
+};
+
+const { className = "", showTitle = true } = Astro.props;
 ---
 
-<p class={twMerge("text-sm lg:text-base uppercase w-full", className)}>
-  <slot />
-</p>
+{
+  showTitle ? (
+    <p class={twMerge("text-sm uppercase w-full", className)}>
+      <slot />
+    </p>
+  ) : null
+}

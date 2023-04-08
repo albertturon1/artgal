@@ -11,5 +11,5 @@ export function artImagesSource(images: Images) {
 }
 
 export function creatorFullname(fullname: string) {
-  return fullname.split("/")[0];
+  return fullname.split("(")[0];
 }

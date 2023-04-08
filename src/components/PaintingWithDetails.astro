@@ -1,30 +1,48 @@
 ---
 import { twMerge } from "tailwind-merge";
 import Painting from "./Painting.astro";
-import type { PaintingWithDetailsProps } from "@interfaces/IPaintingWithDetails";
 
-export type Props = PaintingWithDetailsProps;
+import type { ArtItem } from "@interfaces/IClevelandArt";
+import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
+import { creatorFullname } from "src/utils/misc";
+import DetailRowTitle from "./DetailRowTitle.astro";
+import DetailRowValue from "./DetailRowValue.astro";
+
+export type Props = DetailRowBooleanProps & {
+  item: ArtItem;
+  itemClassName?: string;
+};
 
 const {
   item,
-  showArtist = true,
+  showValue = true,
   showTitle = true,
   itemClassName = "",
 } = Astro.props;
+
+const creators =
+  item.creators.length > 1
+    ? item.creators.map((c) => creatorFullname(c.description))
+    : creatorFullname(item.creators[0].description);
 ---
 
 <a
   href={`/artwork/${item.id.toString()}`}
-  class={twMerge(
-    "flex flex-col cursor-pointer relative",
-    itemClassName
-  )}
+  class={twMerge("flex flex-col cursor-pointer relative", itemClassName)}
 >
   <Painting images={item.images} />
   <div
     class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
   >
-    {showTitle && <h1 class="uppercase text-lg">{item.title}</h1>}
-    {showArtist && <p class="text-lg text-white/90">{item.creators[0].description}</p>}
+    <DetailRowTitle showTitle={showTitle}>{item.title}</DetailRowTitle>
+    {
+      Array.isArray(creators) ? (
+        creators.map((c) => (
+          <DetailRowValue showValue={showValue}>{c}</DetailRowValue>
+        ))
+      ) : (
+        <DetailRowValue showValue={showValue}>{creators}</DetailRowValue>
+      )
+    }
   </div>
 </a>

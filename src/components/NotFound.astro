@@ -1,3 +1,23 @@
-<div class="flex grow w-full min-h-full justify-center items-center">
-  <p class="text-2xl">{"Asset not found"}</p>
+---
+export const prerender = true;
+
+import { getArtwork } from "src/api/ClevelandArtAPI";
+import Painting from "./Painting.astro";
+import DetailRowTitle from "./DetailRowTitle.astro";
+import DetailRowValue from "./DetailRowValue.astro";
+
+const { data: response } = await getArtwork({ id: `136911` });
+const images = response?.data.images;
+---
+
+<div class="flex flex-col flex-1 items-center justify-center gap-x-8 gap-y-5">
+  <div class="h-[60vh] bg-red-300">
+    {images && <Painting images={images} />}
+  </div>
+  <div class="flex flex-col gap-y-1 items-center">
+    <DetailRowValue className="w-max">{"Asset not found"}</DetailRowValue>
+    <a href="/" class="text-blue-600 dark:text-blue-500 hover:underline">
+      <DetailRowTitle>{"Go back to the home page"}</DetailRowTitle>
+    </a>
+  </div>
 </div>
