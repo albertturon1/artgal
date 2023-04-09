@@ -32,20 +32,23 @@ export type Provenance = {
   date: string;
 };
 
-export type ArtImage = {
+export type ArtImage = ArtAlternateImage & {
+  filename: string;
+};
+
+export type ArtAlternateImage = {
   url: string;
   width: string;
   height: string;
   filesize: string;
-  filename: string;
 };
 
 export type AlternateImage = {
   date_created: string;
   annotation: string;
-  web: ArtImage;
-  print: ArtImage;
-  full: ArtImage;
+  web: ArtAlternateImage;
+  print: ArtAlternateImage;
+  full: ArtAlternateImage;
 };
 
 export type ExternalResources = {

@@ -3,22 +3,26 @@ export const prerender = true;
 
 import { twMerge } from "tailwind-merge";
 import type { Images } from "@interfaces/IArt";
-import { artImagesSource } from "src/utils/misc";
+import { artImagesData } from "src/utils/misc";
 
 export interface Props {
   images: Images;
   className?: string;
 }
 const { images, className = "" } = Astro.props;
-const imageSource = artImagesSource(images);
+const imageSource = artImagesData(images);
+import fallbackImg from "../../public/images/image-not-found.jpg";
 ---
 
 <>
   {
     imageSource ? (
       <img
-        src={imageSource}
-        class={twMerge("object-contain max-h-full", className)}
+        src={imageSource.src}
+        width={imageSource.width}
+        height={imageSource.height}
+        onerror={`this.onerror=null; this.src='${fallbackImg}'`}
+        class={twMerge("object-contain max-h-full max-w-full", className)}
       />
     ) : (
       <div
