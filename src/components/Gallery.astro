@@ -6,7 +6,7 @@ import type { GalleryProps } from "@interfaces/IComponentProps";
 
 export type Props = GalleryProps;
 
-const { data, className = "", showArtist, ...props } = Astro.props;
+const { data, className = "", showCreators = true } = Astro.props;
 const dataLength = data.length;
 
 //used where there are more than 3 artworks and want to create 3 columns for better UI
@@ -31,16 +31,19 @@ for (let i = 0, j = 0; i < n; i++) {
       ? parts.map((column) => (
           <div class="flex flex-col gap-4">
             {column.map((item) => (
-              <PaintingWithDetails {...props} item={item} />
+              <PaintingWithDetails
+                item={item}
+                resetHrefStyle
+                showValues={showCreators ?? item.creators.length > 1}
+              />
             ))}
           </div>
         ))
       : data.map((item) => (
           <PaintingWithDetails
-            {...props}
-            showValue={showArtist}
             item={item}
-            itemClassName="w-full h-min"
+            resetHrefStyle
+            showValues={showCreators ?? item.creators.length > 1}
           />
         ))
   }

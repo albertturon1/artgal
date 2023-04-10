@@ -1,10 +1,8 @@
 ---
-import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
+import type { DetailRowValueProps } from "@interfaces/IComponentProps";
 import { twMerge } from "tailwind-merge";
 
-export type Props = Pick<DetailRowBooleanProps, "showValue"> & {
-  className?: string;
-};
+export type Props = DetailRowValueProps;
 
 const { className = "", showValue = true } = Astro.props;
 ---

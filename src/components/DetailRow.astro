@@ -3,6 +3,7 @@ import type { DetailRowProps } from "@interfaces/IComponentProps";
 import DetailRowValue from "./DetailRowValue.astro";
 import DetailRowTitle from "./DetailRowTitle.astro";
 import { twMerge } from "tailwind-merge";
+import CustomLink from "./CustomLink.astro";
 
 export type Props = DetailRowProps;
 
@@ -21,17 +22,9 @@ const {
   <DetailRowTitle showTitle={showTitle} className={titleClassName}>
     {title}
   </DetailRowTitle>
-  {
-    Array.isArray(value) ? (
-      value.map((v) => (
-        <DetailRowValue showValue={showValue} className={valueClassName}>
-          {v}
-        </DetailRowValue>
-      ))
-    ) : (
-      <DetailRowValue showValue={showValue} className={valueClassName}>
-        {value}
-      </DetailRowValue>
-    )
-  }
+  <CustomLink>
+    <DetailRowValue showValue={showValue} className={valueClassName}>
+      {value}
+    </DetailRowValue>
+  </CustomLink>
 </div>

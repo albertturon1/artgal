@@ -1,4 +1,5 @@
 ---
+import ArtistArtworks from "@components/ArtistArtworks.astro";
 import DetailRow from "@components/DetailRow.astro";
 import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
@@ -36,19 +37,16 @@ const artworks = artworksResponse?.data ?? [];
                 title="Lifetime"
                 value={`${artist.birth_year}-${artist.death_year}`}
               />
+              <DetailRow
+                containerClassName="text-xl"
+                title="Biography"
+                value={
+                  artist.biography ??
+                  "A biography has not been created for the selected artist."
+                }
+              />
             </div>
-            <DetailRow
-              containerClassName="text-xl"
-              title="Biography"
-              value={
-                artist.biography ??
-                "A biography has not been created for the selected artist."
-              }
-            />
-            <div class="gap-y-3 flex flex-col">
-              <DetailRowTitle>{"Artworks"}</DetailRowTitle>
-              <Gallery data={artworks} />
-            </div>
+            <ArtistArtworks data={artworks} title="Artworks" />
           </div>
         ) : (
           <NotFound />

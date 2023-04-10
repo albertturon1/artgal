@@ -1,25 +1,26 @@
 ---
 import { twMerge } from "tailwind-merge";
 import Painting from "./Painting.astro";
+import type { PaintingWithDetailsProps } from "@interfaces/IComponentProps";
+import {
+  creatorFullname,
+  detailRowArrayValueWithFallback,
+} from "src/utils/misc";
+import DetailRowArray from "./DetailRowArray.astro";
 
-import type { ArtItem } from "@interfaces/IArt";
-import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
-import { creatorFullname } from "src/utils/misc";
-import DetailRow from "./DetailRow.astro";
+export type Props = PaintingWithDetailsProps;
 
-export type Props = DetailRowBooleanProps & {
-  item: ArtItem;
-  itemClassName?: string;
-};
+const { item, itemClassName = "", ...props } = Astro.props;
 
-const {
-  item,
-  showValue = true,
-  showTitle = true,
-  itemClassName = "",
-} = Astro.props;
-
-const creators = item.creators.map((c) => creatorFullname(c.description));
+const creators = detailRowArrayValueWithFallback({
+  data: item.creators.map((creator) => {
+    const artistName = creatorFullname(creator.description);
+    return {
+      value: artistName,
+      href: `/artist/${creator.id}?name=${artistName}`,
+    };
+  }),
+});
 ---
 
 <a
@@ -30,11 +31,6 @@ const creators = item.creators.map((c) => creatorFullname(c.description));
   <div
     class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
   >
-    <DetailRow
-      showTitle={showTitle}
-      title={item.title}
-      showValue={showValue}
-      value={creators}
-    />
+    <DetailRowArray title={item.title} values={creators} {...props} />
   </div>
 </a>

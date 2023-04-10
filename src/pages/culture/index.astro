@@ -1,0 +1,13 @@
+---
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import Layout from "@layouts/Layout.astro";
+import { getArtworks } from "src/api/ClevelandArtAPI";
+
+const { culture } = Astro.params;
+
+const { data: response, isError } = await getArtworks({ culture });
+---
+
+<Layout title={culture ?? "Culture not found"}>
+  <PageMaxWidth />
+</Layout>

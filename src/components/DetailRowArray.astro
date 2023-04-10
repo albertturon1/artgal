@@ -1,0 +1,44 @@
+---
+import type { DetailRowArrayProps } from "@interfaces/IComponentProps";
+import DetailRowValue from "./DetailRowValue.astro";
+import DetailRowTitle from "./DetailRowTitle.astro";
+import { twMerge } from "tailwind-merge";
+import CustomLink from "./CustomLink.astro";
+
+export type Props = DetailRowArrayProps;
+
+const {
+  title,
+  values,
+  titleClassName = "",
+  containerClassName = "",
+  valuesContainerClassName = "",
+  valueClassName = "",
+  showValues = true,
+  showTitle = true,
+  hrefClassName = "",
+  resetHrefStyle,
+} = Astro.props;
+---
+
+<div class={twMerge("flex flex-col relative", containerClassName)}>
+  <DetailRowTitle showTitle={showTitle} className={titleClassName}>
+    {title}
+  </DetailRowTitle>
+  <div class={twMerge("flex flex-col flex-1", valuesContainerClassName)}>
+    {
+      showValues &&
+        values.map((row) => (
+          <CustomLink
+            href={row.href}
+            className={twMerge(hrefClassName, row.hrefClassName)}
+            resetHrefStyle={resetHrefStyle}
+          >
+            <DetailRowValue className={valueClassName}>
+              {row.value}
+            </DetailRowValue>
+          </CustomLink>
+        ))
+    }
+  </div>
+</div>
