@@ -9,7 +9,7 @@ const { className = "", showTitle = true } = Astro.props;
 
 {
   showTitle ? (
-    <p class={twMerge("text-sm uppercase w-full", className)}>
+    <p class={twMerge("md:text-lg uppercase w-full", className)}>
       <slot />
     </p>
   ) : null

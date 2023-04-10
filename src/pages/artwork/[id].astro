@@ -45,6 +45,11 @@ const creatorsArtworksQueries =
       )
     : [];
 
+const dimensions = (width: number, height: number) =>
+  `${Number(width * 100).toPrecision(4)}cm x ${(height * 100).toPrecision(
+    4
+  )}cm` ?? "Unknown";
+
 const creatorsArtworks = await Promise.all(creatorsArtworksQueries);
 const artworks = creatorsArtworks
   .flatMap(({ data: creator }) => creator?.data ?? [])
@@ -59,8 +64,8 @@ const artworks = creatorsArtworks
       ) : (
         <>
           <PagePadding>
-            <div class="flex flex-col md:flex-row w-full md:h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
-              <div class="h-full">
+            <div class="flex flex-col md:flex-row w-full md:max-h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
+              <div class="flex bg-red-300 max-w-2/3">
                 <Painting
                   images={response.data.images}
                   className="w-full h-full"
@@ -90,27 +95,24 @@ const artworks = creatorsArtworks
                 {response.data.dimensions.framed && (
                   <DetailRow
                     title="Dimensions framed"
-                    value={
-                      `${response.data.dimensions.framed.width * 100}cm x ${
-                        response.data.dimensions.framed.height * 100
-                      }cm` ?? "Unknown"
-                    }
+                    value={dimensions(
+                      response.data.dimensions.framed.width,
+                      response.data.dimensions.framed.height
+                    )}
                   />
                 )}
                 {!response.data.dimensions.framed &&
                   response.data.dimensions.unframed && (
                     <DetailRow
                       title="Dimensions unframed"
-                      value={
-                        `${response.data.dimensions.unframed.width * 100}cm x ${
-                          response.data.dimensions.unframed.height * 100
-                        }cm` ?? "Unknown"
-                      }
+                      value={dimensions(
+                        response.data.dimensions.unframed.width,
+                        response.data.dimensions.unframed.height
+                      )}
                     />
                   )}
               </div>
             </div>
-            <p />
             <div class="pt-10">
               <ArtistArtworks
                 titleClassName="text-xl"
