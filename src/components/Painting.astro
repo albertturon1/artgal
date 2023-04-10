@@ -6,7 +6,7 @@ export type Props = PaintingProps;
 
 const { images, className = "" } = Astro.props;
 const imageSource = artImagesData(images);
-import fallbackImg from "../../public/images/image-not-found.jpg";
+import fallbackImg from "../../images/image-not-found.jpg";
 import type { PaintingProps } from "@interfaces/IComponentProps";
 ---
 
