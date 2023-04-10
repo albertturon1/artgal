@@ -1,4 +1,5 @@
 ---
+import ArtistArtworks from "@components/ArtistArtworks.astro";
 import DetailRow from "@components/DetailRow.astro";
 import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
@@ -28,27 +29,24 @@ const artworks = artworksResponse?.data ?? [];
     <PagePadding>
       {
         !isError && artist ? (
-          <div class="flex flex-col flex-1 gap-y-7">
-            <h1 class="text-3xl uppercase">{artist.name}</h1>
-            <div class="flex flex-col gap-y-3">
+          <div class="flex flex-col flex-1 gap-y-8 pt-2 lg:pt-0">
+            <div class="flex flex-col gap-y-4">
+              <h1 class="text-2xl uppercase">{artist.name}</h1>
               <DetailRow title="Nationality" value={artist.nationality} />
               <DetailRow
                 title="Lifetime"
                 value={`${artist.birth_year}-${artist.death_year}`}
               />
+              <DetailRow
+                containerClassName="text-xl"
+                title="Biography"
+                value={
+                  artist.biography ??
+                  "A biography has not been created for the selected artist."
+                }
+              />
             </div>
-            <DetailRow
-              containerClassName="text-xl"
-              title="Biography"
-              value={
-                artist.biography ??
-                "A biography has not been created for the selected artist."
-              }
-            />
-            <div class="gap-y-3 flex flex-col">
-              <DetailRowTitle>{"Artworks"}</DetailRowTitle>
-              <Gallery data={artworks} />
-            </div>
+            <ArtistArtworks data={artworks} title="Artworks" />
           </div>
         ) : (
           <NotFound />

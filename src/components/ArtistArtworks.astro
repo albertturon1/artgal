@@ -1,20 +1,27 @@
 ---
 import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
-import type { GalleryProps } from "@interfaces/IComponentProps";
+import type { ArtistArtworksProps } from "@interfaces/IComponentProps";
+import { twMerge } from "tailwind-merge";
 
-export type Props = GalleryProps & {
-  title?: string;
-};
+export type Props = ArtistArtworksProps;
 
-const { title, ...props } = Astro.props;
+const {
+  title,
+  containerClassName = "",
+  galleryClassName = "",
+  titleClassName = "",
+  ...props
+} = Astro.props;
 ---
 
 {
   !!props.data.length && (
-    <div class="flex flex-col w-full gap-y-4">
-      {!!title && <DetailRowTitle className="text-xl">{title}</DetailRowTitle>}
-      <Gallery {...props} />
+    <div class={twMerge("flex flex-col w-full gap-y-1", containerClassName)}>
+      {!!title && (
+        <DetailRowTitle className={titleClassName}>{title}</DetailRowTitle>
+      )}
+      <Gallery {...props} className={galleryClassName} />
     </div>
   )
 }

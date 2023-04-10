@@ -2,19 +2,38 @@
 import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
 import DetailRow from "@components/DetailRow.astro";
-import DetailRowValue from "@components/DetailRowValue.astro";
-import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Painting from "@components/Painting.astro";
 import ArtistArtworks from "@components/ArtistArtworks.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtwork, getArtworks } from "src/api/ClevelandArtAPI";
-import { capitalize, creatorFullname } from "src/utils/misc";
+import {
+  capitalize,
+  creatorFullname,
+  detailRowArrayValueWithFallback,
+} from "src/utils/misc";
 import NotFound from "@components/NotFound.astro";
+import DetailRowArray from "@components/DetailRowArray.astro";
 
 const { id } = Astro.params;
 
 const { data: response, isError } = await getArtwork({ id });
 const numberOfCreators = response?.data.creators.length ?? 0;
+const creators = detailRowArrayValueWithFallback({
+  data: response?.data.creators.map((creator) => {
+    const artistName = creatorFullname(creator.description);
+    return {
+      value: artistName,
+      href: `/artist/${creator.id}?name=${artistName}`,
+    };
+  }),
+});
+
+const cultures = detailRowArrayValueWithFallback({
+  data: response?.data.culture.map((c) => ({
+    value: c,
+    href: `/culture?name=${c}`,
+  })),
+});
 
 const creatorsArtworksQueries =
   response && !isError
@@ -25,6 +44,11 @@ const creatorsArtworksQueries =
         })
       )
     : [];
+
+const dimensions = (width: number, height: number) =>
+  `${Number(width * 100).toPrecision(4)}cm x ${(height * 100).toPrecision(
+    4
+  )}cm` ?? "Unknown";
 
 const creatorsArtworks = await Promise.all(creatorsArtworksQueries);
 const artworks = creatorsArtworks
@@ -40,30 +64,20 @@ const artworks = creatorsArtworks
       ) : (
         <>
           <PagePadding>
-            <div class="flex flex-col md:flex-row w-full md:h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
-              <div class="h-full">
+            <div class="flex flex-col md:flex-row w-full md:max-h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
+              <div class="flex bg-red-300 max-w-2/3">
                 <Painting
                   images={response.data.images}
                   className="w-full h-full"
                 />
               </div>
               <div class="flex flex-col flex-1 gap-y-4 md:gap-y-4 pt-4 md:pt-1">
-                <div class="flex flex-col">
-                  <DetailRowTitle>
-                    {numberOfCreators === 1 ? "Creator" : "Creators"}
-                  </DetailRowTitle>
-                  {response.data.creators.map((creator) => {
-                    const artistName = creatorFullname(creator.description);
-                    return (
-                      <a
-                        href={`/artist/${creator.id}?name=${artistName}`}
-                        class="text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                        <DetailRowValue>{artistName}</DetailRowValue>
-                      </a>
-                    );
-                  })}
-                </div>
+                {creators && (
+                  <DetailRowArray
+                    title={numberOfCreators === 1 ? "Creator" : "Creators"}
+                    values={creators}
+                  />
+                )}
                 <DetailRow title="Title" value={response.data.title} />
                 <DetailRow
                   title="Collection"
@@ -73,10 +87,7 @@ const artworks = creatorsArtworks
                   title="Creation date"
                   value={response.data.creation_date ?? "Unknown"}
                 />
-                <DetailRow
-                  title="Culture"
-                  value={response.data.culture ?? "Unknown"}
-                />
+                <DetailRowArray title="Culture" values={cultures} />
                 <DetailRow
                   title="Technique"
                   value={capitalize(response.data.technique) ?? "Unknown"}
@@ -84,30 +95,28 @@ const artworks = creatorsArtworks
                 {response.data.dimensions.framed && (
                   <DetailRow
                     title="Dimensions framed"
-                    value={
-                      `${response.data.dimensions.framed.width * 100}cm x ${
-                        response.data.dimensions.framed.height * 100
-                      }cm` ?? "Unknown"
-                    }
+                    value={dimensions(
+                      response.data.dimensions.framed.width,
+                      response.data.dimensions.framed.height
+                    )}
                   />
                 )}
                 {!response.data.dimensions.framed &&
                   response.data.dimensions.unframed && (
                     <DetailRow
                       title="Dimensions unframed"
-                      value={
-                        `${response.data.dimensions.unframed.width * 100}cm x ${
-                          response.data.dimensions.unframed.height * 100
-                        }cm` ?? "Unknown"
-                      }
+                      value={dimensions(
+                        response.data.dimensions.unframed.width,
+                        response.data.dimensions.unframed.height
+                      )}
                     />
                   )}
               </div>
             </div>
-            <div class="pt-10 gap-y-4">
+            <div class="pt-10">
               <ArtistArtworks
+                titleClassName="text-xl"
                 data={artworks}
-                showArtist={numberOfCreators === 1}
                 title={
                   numberOfCreators > 1
                     ? "More creator's artworks"

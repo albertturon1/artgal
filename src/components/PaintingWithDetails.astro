@@ -1,40 +1,47 @@
 ---
 import { twMerge } from "tailwind-merge";
 import Painting from "./Painting.astro";
+import type { PaintingWithDetailsProps } from "@interfaces/IComponentProps";
+import {
+  creatorFullname,
+  detailRowArrayValueWithFallback,
+} from "src/utils/misc";
+import DetailRowArray from "./DetailRowArray.astro";
 
-import type { ArtItem } from "@interfaces/IArt";
-import type { DetailRowBooleanProps } from "@interfaces/IComponentProps";
-import { creatorFullname } from "src/utils/misc";
-import DetailRow from "./DetailRow.astro";
+export type Props = PaintingWithDetailsProps;
 
-export type Props = DetailRowBooleanProps & {
-  item: ArtItem;
-  itemClassName?: string;
-};
+const { item, itemClassName = "", ...props } = Astro.props;
+const TITLE_LIMIT = 60;
 
-const {
-  item,
-  showValue = true,
-  showTitle = true,
-  itemClassName = "",
-} = Astro.props;
-
-const creators = item.creators.map((c) => creatorFullname(c.description));
+const creators = detailRowArrayValueWithFallback({
+  data: item.creators.map((creator) => {
+    const artistName = creatorFullname(creator.description);
+    return {
+      value: artistName,
+      href: `/artist/${creator.id}?name=${artistName}`,
+    };
+  }),
+});
 ---
 
 <a
   href={`/artwork/${item.id.toString()}`}
-  class={twMerge("flex flex-col cursor-pointer relative", itemClassName)}
+  class={twMerge("flex flex-col cursor-pointer", itemClassName)}
 >
-  <Painting images={item.images} />
-  <div
-    class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
-  >
-    <DetailRow
-      showTitle={showTitle}
-      title={item.title}
-      showValue={showValue}
-      value={creators}
-    />
+  <div class="flex flex-col relative">
+    <Painting images={item.images} />
+    <div
+      class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
+    >
+      <DetailRowArray
+        title={item.title.length >= TITLE_LIMIT
+          ? `${item.title.slice(0, TITLE_LIMIT)}...`
+          : item.title}
+        titleClassName="text-lg"
+        valueClassName="text-white/90"
+        values={creators}
+        {...props}
+      />
+    </div>
   </div>
 </a>

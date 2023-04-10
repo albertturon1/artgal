@@ -1,17 +1,13 @@
 ---
-export const prerender = true;
-
 import { twMerge } from "tailwind-merge";
-import type { Images } from "@interfaces/IArt";
 import { artImagesData } from "src/utils/misc";
 
-export interface Props {
-  images: Images;
-  className?: string;
-}
+export type Props = PaintingProps;
+
 const { images, className = "" } = Astro.props;
 const imageSource = artImagesData(images);
 import fallbackImg from "../../public/images/image-not-found.jpg";
+import type { PaintingProps } from "@interfaces/IComponentProps";
 ---
 
 <>

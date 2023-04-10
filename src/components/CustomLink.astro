@@ -1,0 +1,22 @@
+---
+import type { CustomLinkProps } from "@interfaces/IComponentProps";
+import { twMerge } from "tailwind-merge";
+
+export type Props = CustomLinkProps;
+
+const { href, className = "", resetHrefStyle } = Astro.props;
+---
+
+<a
+    href={href}
+    class={twMerge(
+        `${
+            href && !resetHrefStyle
+                ? "text-blue-600 dark:text-blue-500 hover:underline"
+                : ""
+        }`,
+        className
+    )}
+>
+    <slot />
+</a>

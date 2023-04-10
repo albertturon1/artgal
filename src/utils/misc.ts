@@ -1,4 +1,5 @@
 import type { AlternateImage, ArtAlternateImage, ArtImage, Images } from "@interfaces/IArt";
+import type { DetailRowArrayValue } from "@interfaces/IComponentProps";
 import queryString from "query-string";
 
 export function genQueryString(params: object | undefined) {
@@ -21,4 +22,11 @@ export function creatorFullname(fullname: string) {
 
 export function capitalize(str: string) {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
+}
+
+export function detailRowArrayValueWithFallback<T extends DetailRowArrayValue[]>({ data, fallback = {
+  value: "Unknown",
+} }: { data: T | undefined, fallback?: DetailRowArrayValue }) {
+  if (!data) return [fallback] satisfies DetailRowArrayValue[];
+  return data satisfies DetailRowArrayValue[];
 }

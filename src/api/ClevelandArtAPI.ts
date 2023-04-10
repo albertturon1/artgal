@@ -32,7 +32,7 @@ export async function getArtwork({ id }: { id: string | undefined }) {
 
 export async function getArtworks({
   ...props
-}: { artists?: string | null } & ArtworksParams) {
+}: { artists?: string | null; culture?: string | null; } & ArtworksParams) {
   return await api.get<ArtDataInfoResponse<ArtItem[]>, ArtErrorResponse>({
     url: `${import.meta.env.PUBLIC_API}/artworks`,
     params: {

@@ -5,6 +5,7 @@ import { getArtwork } from "src/api/ClevelandArtAPI";
 import Painting from "./Painting.astro";
 import DetailRowTitle from "./DetailRowTitle.astro";
 import DetailRowValue from "./DetailRowValue.astro";
+import CustomLink from "./CustomLink.astro";
 
 const { data: response } = await getArtwork({ id: `136911` });
 ---
@@ -15,8 +16,8 @@ const { data: response } = await getArtwork({ id: `136911` });
   </div>
   <div class="flex flex-col gap-y-1 items-center">
     <DetailRowValue className="w-max">{"Asset not found"}</DetailRowValue>
-    <a href="/" class="text-blue-600 dark:text-blue-500 hover:underline">
+    <CustomLink href="/">
       <DetailRowTitle>{"Go back to the home page"}</DetailRowTitle>
-    </a>
+    </CustomLink>
   </div>
 </div>
