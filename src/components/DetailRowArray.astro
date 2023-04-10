@@ -21,7 +21,7 @@ const {
 } = Astro.props;
 ---
 
-<div class={twMerge("flex flex-col relative", containerClassName)}>
+<div class={twMerge("flex flex-col", containerClassName)}>
   <DetailRowTitle showTitle={showTitle} className={titleClassName}>
     {title}
   </DetailRowTitle>
