@@ -1,24 +1,25 @@
 ---
+import type { PaintingProps } from "@interfaces/IComponentProps";
 import { twMerge } from "tailwind-merge";
 import { artImagesData } from "src/utils/misc";
+import fallbackImg from "../../public/images/image-not-found.jpg";
 
 export type Props = PaintingProps;
 
 const { images, className = "" } = Astro.props;
 const imageSource = artImagesData(images);
-import fallbackImg from "../../images/image-not-found.jpg";
-import type { PaintingProps } from "@interfaces/IComponentProps";
 ---
 
 <>
   {
     imageSource ? (
       <img
-        src={imageSource.src}
+        src={imageSource.url}
         width={imageSource.width}
         height={imageSource.height}
+        alt={imageSource.filename}
         onerror={`this.onerror=null; this.src='${fallbackImg}'`}
-        class={twMerge("object-contain max-h-full max-w-full", className)}
+        class={twMerge("object-contain w-full max-h-full max-w-full", className)}
       />
     ) : (
       <div

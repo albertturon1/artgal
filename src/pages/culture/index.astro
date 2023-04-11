@@ -4,11 +4,16 @@ import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
+import { artImagesData } from "src/utils/misc";
 
 const culture = Astro.url.searchParams.get("name") ?? "asdas";
 
-const { data: response, isError } = await getArtworks({ culture, limit: 18 });
-const data = response?.data ?? [];
+const { data: response, isError } = await getArtworks({ culture, limit: 500 });
+const data =
+  response?.data.filter((d) => {
+    const image = artImagesData(d.images);
+    return d.images && image && Number(image.filesize) < 100000;
+  }) ?? [];
 ---
 
 <Layout title={culture ?? "Culture not found"}>

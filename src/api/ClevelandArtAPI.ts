@@ -7,6 +7,7 @@ import type {
   ArtworksParams,
 } from "@interfaces/IArt";
 import api from "src/utils/api";
+import { artImagesData } from "src/utils/misc";
 
 export async function getArtist({
   id,
@@ -14,7 +15,7 @@ export async function getArtist({
 }: {
   id: string;
 } & ArtworksParams) {
-  return await api.get<ArtDataInfoResponse<Artist>, ArtErrorResponse>({
+  const res = await api.get<ArtDataInfoResponse<Artist>, ArtErrorResponse>({
     url: `${import.meta.env.PUBLIC_API}/creators/${id}`,
     params: {
       limit: 10,
@@ -22,6 +23,23 @@ export async function getArtist({
       ...props,
     },
   });
+
+  return {
+    ...res,
+    data: {
+      ...res.data,
+      data: {
+        ...res,
+        data: res.data?.data.artworks.filter((img) => {
+          const image = artImagesData(img.images);
+          return (
+            image &&
+            Number(image.filesize) < import.meta.env.PUBLIC_MAX_IMAGE_SIZE
+          );
+        }),
+      },
+    },
+  };
 }
 
 export async function getArtwork({ id }: { id: string | undefined }) {
@@ -32,12 +50,25 @@ export async function getArtwork({ id }: { id: string | undefined }) {
 
 export async function getArtworks({
   ...props
-}: { artists?: string | null; culture?: string | null; } & ArtworksParams) {
-  return await api.get<ArtDataInfoResponse<ArtItem[]>, ArtErrorResponse>({
+}: { artists?: string | null; culture?: string | null } & ArtworksParams) {
+  const res = await api.get<ArtDataInfoResponse<ArtItem[]>, ArtErrorResponse>({
     url: `${import.meta.env.PUBLIC_API}/artworks`,
     params: {
       has_image: 1,
       ...props,
     },
   });
+  return {
+    ...res,
+    data: {
+      ...res,
+      data: res.data?.data.filter((img) => {
+        const image = artImagesData(img.images);
+        return (
+          image &&
+          Number(image.filesize) < import.meta.env.PUBLIC_MAX_IMAGE_SIZE
+        );
+      }),
+    },
+  };
 }

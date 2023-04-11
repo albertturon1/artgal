@@ -17,6 +17,7 @@ import DetailRowArray from "@components/DetailRowArray.astro";
 const { id } = Astro.params;
 
 const { data: response, isError } = await getArtwork({ id });
+
 const numberOfCreators = response?.data.creators.length ?? 0;
 const creators = detailRowArrayValueWithFallback({
   data: response?.data.creators.map((creator) => {
@@ -40,7 +41,7 @@ const creatorsArtworksQueries =
     ? response.data.creators.map((creator) =>
         getArtworks({
           artists: creatorFullname(creator.description),
-          limit: Math.ceil(9 / numberOfCreators),
+          limit: Math.ceil(7 / numberOfCreators),
         })
       )
     : [];
@@ -65,7 +66,7 @@ const artworks = creatorsArtworks
         <>
           <PagePadding>
             <div class="flex flex-col md:flex-row w-full md:max-h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
-              <div class="flex bg-red-300 max-w-2/3 h-max">
+              <div class="flex max-w-full md:max-w-2/3 h-max">
                 <Painting
                   images={response.data.images}
                   className="w-full h-full"
@@ -119,8 +120,8 @@ const artworks = creatorsArtworks
                 data={artworks}
                 title={
                   numberOfCreators > 1
-                    ? "More creator's artworks"
-                    : "More creator artworks"
+                    ? "More creators artworks"
+                    : "More creator's artworks"
                 }
               />
             </div>
