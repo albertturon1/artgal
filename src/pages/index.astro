@@ -4,6 +4,7 @@ export const prerender = true;
 import Gallery from "@components/Gallery.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
+import Painting from "@components/Painting.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
 
@@ -13,9 +14,41 @@ const { data: response } = await getArtworks({
 const data = response?.data ?? [];
 ---
 
-<Layout title="Artgal">
+<Layout title="Explore Artgal">
   <PageMaxWidth>
     <PagePadding>
+      <div
+        class="flex flex-col sm:flex-row w-full mb-12 md:mb-[10rem] gap-x-10 lg:gap-x-16 pt-3 lg:pt-10 gap-y-8"
+      >
+        <div class="flex flex-col lg:gap-y-3 max-w-full">
+          <div
+            class="w-full flex flex-col text-3xl md:text-[3.2rem] lg:text-[4.2rem] leading-[2.5rem] md:leading-[4rem] lg:leading-[5rem] font-bold uppercase mb-3 md:mb-5"
+          >
+            <h1 class="">{"Explore Art"}</h1>
+            <h1 class="">{"Around the"}</h1>
+            <h1 class="">{"world"}</h1>
+          </div>
+          <div
+            class="md:text-lg lg:text-xl leading-[1.9rem] md:leading-[2.2rem] lg:leading-[2.5rem] max-w-3xl w-full uppercase"
+          >
+            <p>
+              {"Immerse yourself in a world of artistic brilliance."}
+            </p>
+            <p>
+              {"Explore stunning artworks and unleash your creativity."}
+            </p>
+            <p>
+              {"Start your journey today."}
+            </p>
+          </div>
+        </div>
+        <div class="hidden md:flex flex-[2_2_10%] w-[30vw] h-max">
+          <Painting
+            url="https://openaccess-cdn.clevelandart.org/1996.1/1996.1_web.jpg"
+            alt="Index page painting"
+          />
+        </div>
+      </div>
       <Gallery data={data} />
     </PagePadding>
   </PageMaxWidth>

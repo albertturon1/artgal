@@ -17,7 +17,6 @@ import DetailRowArray from "@components/DetailRowArray.astro";
 const { id } = Astro.params;
 
 const { data: response, isError } = await getArtwork({ id });
-
 const numberOfCreators = response?.data.creators.length ?? 0;
 const creators = detailRowArrayValueWithFallback({
   data: response?.data.creators.map((creator) => {
