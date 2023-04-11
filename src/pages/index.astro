@@ -8,7 +8,7 @@ import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
 
 const { data: response } = await getArtworks({
-  limit: 500,
+  limit: 25,
 });
 const data = response?.data ?? [];
 ---
