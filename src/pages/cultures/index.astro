@@ -1,0 +1,70 @@
+---
+export const prerender = true;
+
+import { getEntryBySlug } from "astro:content";
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
+import Layout from "@layouts/Layout.astro";
+import DetailRowArray from "@components/DetailRowArray.astro";
+import type { DetailRowArrayValue } from "@interfaces/IComponentProps";
+import DetailRow from "@components/DetailRow.astro";
+
+type Culture = {
+  name: string;
+  variants: string[];
+};
+// Get all entries from a collection. Requires the name of the collection as an argument.
+const culturesCollection = await getEntryBySlug("cultures", "one");
+const cultures = culturesCollection.data.cultures.sort().reduce((acc, item) => {
+  const [culture, ...variantRest] = item.split(", ");
+  const variant = variantRest.join(", ");
+
+  if (acc.findIndex((a) => a.name === culture) === -1) {
+    acc.push({
+      name: culture,
+      variants: [variant],
+    });
+  } else {
+    const index = acc.findIndex((a) => a.name === culture);
+    acc[index].variants.push(variant);
+  }
+  return acc;
+}, [] as Culture[]);
+---
+
+<Layout title="Cultures">
+  <PageMaxWidth>
+    <PagePadding>
+      <div class="mt-[2%] mb-[3%]">
+        <DetailRow
+          title="Explore over 100 cultures from around the world"
+          value={`There are ${cultures.length} cultures available to explore.`}
+          titleClassName="md:text-2xl uppercase mb-2"
+        />
+      </div>
+      <div class="flex flex-1 flex-col">
+        {
+          cultures.map((c) => {
+            const values = c.variants.map((v) => {
+              return {
+                value: v,
+                href: `/culture?name=${c.name}, ${v}`,
+              };
+            }) satisfies DetailRowArrayValue[];
+
+            return (
+              <div class="flex flex-col w-full mb-10">
+                <DetailRowArray
+                  title={c.name}
+                  titleClassName="md:text-xl mb-1"
+                  valueClassName=""
+                  values={values}
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+    </PagePadding>
+  </PageMaxWidth>
+</Layout>
