@@ -1,13 +1,37 @@
 ---
+import DetailRow from "@components/DetailRow.astro";
+import Gallery from "@components/Gallery.astro";
+import NotFound from "@components/NotFound.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
 
-const { culture } = Astro.params;
+const culture = Astro.url.searchParams.get("name") ?? "";
 
-const { data: response, isError } = await getArtworks({ culture });
+const { data: response } = await getArtworks({ culture, limit: 60 });
+const data = response?.data ?? [];
 ---
 
 <Layout title={culture ?? "Culture not found"}>
-  <PageMaxWidth />
+  <PageMaxWidth>
+    <PagePadding>
+      {
+        culture && !!data.length ? (
+          <div class="flex flex-col flex-1">
+            <div class="mt-[2%] mb-[3%]">
+              <DetailRow
+                title="Culture"
+                value={culture}
+                valueClassName="md:text-2xl uppercase"
+              />
+            </div>
+            <Gallery data={data} />
+          </div>
+        ) : (
+          <NotFound />
+        )
+      }
+    </PagePadding>
+  </PageMaxWidth>
 </Layout>

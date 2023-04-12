@@ -1,0 +1,37 @@
+---
+import Painting from "@components/Painting.astro";
+import HeaderImage from "public/images/index-page-header.jpg";
+---
+
+<div
+  class="hidden md:flex flex-row w-full mb-[4%] gap-x-10 lg:gap-x-16 gap-y-8 justify-between"
+>
+  <div class="flex flex-col lg:gap-y-3 flex-1 justify-between py-[3%]">
+    <div
+      class="w-max flex flex-col text-[3rem] lg:text-[4rem] xl:text-[5rem] leading-[4rem] lg:leading-[5rem] xl:leading-[6rem] font-bold uppercase"
+    >
+      <h1 class="">{"Explore Art"}</h1>
+      <h1 class="">{"Around the"}</h1>
+      <h1 class="">{"world"}</h1>
+    </div>
+    <div
+      class="text-lg lg:text-xl leading-[2.2rem] lg:leading-[2.5rem] max-w-3xl w-full uppercase pl-2"
+    >
+      <p>
+        {"World of artistic brilliance."}
+      </p>
+      <p>
+        {"Stunning artworks."}
+      </p>
+      <p>
+        {"Artists in their class."}
+      </p>
+      <p>
+        {"Start your journey today."}
+      </p>
+    </div>
+  </div>
+  <div class="max-h-[72.5vh] flex flex-1 max-w-sm lg:max-w-md xl:max-w-lg">
+    <Painting url={HeaderImage} alt="Index page painting" />
+  </div>
+</div>

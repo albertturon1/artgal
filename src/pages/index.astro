@@ -1,20 +1,27 @@
 ---
+export const prerender = true;
+
 import Gallery from "@components/Gallery.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
+import HeaderMobile from "@components/home/HeaderMobile.astro";
+import HeaderOverMobile from "@components/home/HeaderOverMobile.astro";
 
-const { data: artworksResponse } = await getArtworks({
-  limit: 18,
+const { data: response } = await getArtworks({
+  limit: 25,
 });
-const data = artworksResponse?.data ?? [];
+const data = response?.data ?? [];
 ---
 
-<Layout title="Artgal">
+<Layout title="Explore Artgal">
   <PageMaxWidth>
+    <HeaderMobile />
     <PagePadding>
+      <HeaderOverMobile />
       <Gallery data={data} />
+      <PagePadding />
     </PagePadding>
   </PageMaxWidth>
 </Layout>

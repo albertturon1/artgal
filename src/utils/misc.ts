@@ -1,4 +1,9 @@
-import type { AlternateImage, ArtAlternateImage, ArtImage, Images } from "@interfaces/IArt";
+import type {
+  AlternateImage,
+  ArtAlternateImage,
+  ArtImage,
+  Images,
+} from "@interfaces/IArt";
 import type { DetailRowArrayValue } from "@interfaces/IComponentProps";
 import queryString from "query-string";
 
@@ -7,13 +12,8 @@ export function genQueryString(params: object | undefined) {
   return queryString.stringify(params);
 }
 
-function getDataFromArtImage(img: ArtImage | null) {
-  if (!img) return null;
-  return { width: img.width, height: img.height, src: img.url, filesize: img.filesize }
-}
-
 export function artImagesData(images: Images) {
-  return getDataFromArtImage(images.web) ?? getDataFromArtImage(images.print) ?? getDataFromArtImage(images.full);
+  return images.web ?? images.print ?? images.full;
 }
 
 export function creatorFullname(fullname: string) {
@@ -24,9 +24,17 @@ export function capitalize(str: string) {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
 }
 
-export function detailRowArrayValueWithFallback<T extends DetailRowArrayValue[]>({ data, fallback = {
-  value: "Unknown",
-} }: { data: T | undefined, fallback?: DetailRowArrayValue }) {
+export function detailRowArrayValueWithFallback<
+  T extends DetailRowArrayValue[]
+>({
+  data,
+  fallback = {
+    value: "Unknown",
+  },
+}: {
+  data: T | undefined;
+  fallback?: DetailRowArrayValue;
+}) {
   if (!data) return [fallback] satisfies DetailRowArrayValue[];
   return data satisfies DetailRowArrayValue[];
 }

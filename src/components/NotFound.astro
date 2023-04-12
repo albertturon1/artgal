@@ -1,19 +1,13 @@
 ---
-export const prerender = true;
-
-import { getArtwork } from "src/api/ClevelandArtAPI";
 import Painting from "./Painting.astro";
 import DetailRowTitle from "./DetailRowTitle.astro";
 import DetailRowValue from "./DetailRowValue.astro";
 import CustomLink from "./CustomLink.astro";
-
-const { data: response } = await getArtwork({ id: `136911` });
+import AssetNotFound from "public/images/asset-not-found.jpg";
 ---
 
 <div class="flex flex-col flex-1 items-center justify-center gap-x-8 gap-y-5">
-  <div class="h-[65vh]">
-    {response?.data && <Painting images={response?.data.images} />}
-  </div>
+  <Painting url={AssetNotFound} alt="Asset not found" />
   <div class="flex flex-col gap-y-1 items-center">
     <DetailRowValue className="w-max">{"Asset not found"}</DetailRowValue>
     <CustomLink href="/">

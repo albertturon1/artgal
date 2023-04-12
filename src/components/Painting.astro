@@ -1,26 +1,46 @@
 ---
+import type { PaintingProps } from "@interfaces/IComponentProps";
 import { twMerge } from "tailwind-merge";
 import { artImagesData } from "src/utils/misc";
+import fallbackImg from "../../public/images/image-not-found.jpg";
 
 export type Props = PaintingProps;
 
-const { images, className = "" } = Astro.props;
-const imageSource = artImagesData(images);
-import fallbackImg from "../../public/images/image-not-found.jpg";
-import type { PaintingProps } from "@interfaces/IComponentProps";
+const { images, className = "", url, alt, assignSizes = false } = Astro.props;
+const imageSource = images ? artImagesData(images) : null;
 ---
 
 <>
   {
-    imageSource ? (
+    !!url && !images && (
       <img
-        src={imageSource.src}
-        width={imageSource.width}
-        height={imageSource.height}
+        src={url}
+        alt={alt}
         onerror={`this.onerror=null; this.src='${fallbackImg}'`}
-        class={twMerge("object-contain max-h-full max-w-full", className)}
+        class={twMerge(
+          "object-contain w-full max-h-full max-w-full h-full",
+          className
+        )}
       />
-    ) : (
+    )
+  }
+  {
+    imageSource && !url && (
+      <img
+        src={imageSource.url}
+        width={assignSizes && imageSource.width}
+        height={assignSizes && imageSource.height}
+        alt={imageSource.filename}
+        onerror={`this.onerror=null; this.src='${fallbackImg}'`}
+        class={twMerge(
+          "object-contain w-full max-h-full max-w-fullh-full",
+          className
+        )}
+      />
+    )
+  }
+  {
+    !imageSource && !url && (
       <div
         class={twMerge(
           "flex justify-center items-center bg-slate-600 aspect-square",

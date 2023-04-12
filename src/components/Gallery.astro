@@ -1,8 +1,8 @@
 ---
-import type { ArtItem } from "@interfaces/IArt";
 import { twMerge } from "tailwind-merge";
 import PaintingWithDetails from "./PaintingWithDetails.astro";
 import type { GalleryProps } from "@interfaces/IComponentProps";
+import type { ArtItem } from "@interfaces/IArt";
 
 export type Props = GalleryProps;
 
@@ -14,18 +14,20 @@ const n = 3; // number of subarrays
 const partSize = Math.floor(dataLength / n); // calculate size of each part
 const remainder = dataLength % n; // calculate remainder
 
-const parts = []; // initialize parts array
+const parts: ArtItem[][] = []; // initialize parts array
 
 for (let i = 0, j = 0; i < n; i++) {
   const extra = i < remainder ? 1 : 0; // add 1 if remainder needs to be reduced
   const end = j + partSize + extra;
 
-  parts.push(data.slice(j, end));
+  const slice = data.slice(j, end).filter((item) => Object.keys(item.images).length > 0);
+
+  parts.push(slice);
   j = end;
 }
 ---
 
-<div class={twMerge("grid grid-cols-1 sm:grid-cols-3 gap-3", className)}>
+<div class={twMerge("grid grid-cols-1 md:grid-cols-3 gap-3 overflow-hidden", className)}>
   {
     dataLength > 3
       ? parts.map((column) => (
@@ -42,7 +44,7 @@ for (let i = 0, j = 0; i < n; i++) {
           </div>
         ))
       : data.map((item) => (
-          <div><!-- is needed to prevent the flexbox from collapsing -->
+          <div><!-- needed to prevent the flexbox from collapsing -->
             <PaintingWithDetails
               item={item}
               resetHrefStyle

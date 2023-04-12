@@ -1,11 +1,31 @@
+---
+import PageMaxWidth from "./PageMaxWidth.astro";
+import PagePadding from "./PagePadding.astro";
+---
+
 <nav
-  class="sticky top-0 w-full h-20 bg-black flex justify-center px-2 lg:px-6 text-white items-center z-50"
+  class="sticky top-0 w-full h-16 py-1.5 md:h-20 bg-black flex justify-center text-white items-center z-50"
 >
-  <a href="/" class="text-4xl h-full cursor-pointer"
-    ><div class="h-full flex items-center justify-center tracking-wider">
-      <p>
-        {"Artgal"}
-      </p>
-    </div>
-  </a>
+  <PageMaxWidth>
+    <PagePadding>
+      <div class="h-full flex items-center tracking-wider justify-between">
+        <a href="/" class="text-4xl h-full cursor-pointer">
+          <p class="font-bold uppercase text-3xl lg:text-4xl">
+            {"Artgal"}
+          </p>
+        </a>
+        <div class="gap-x-6 flex">
+          <a href="/cultures" class="text-xl lg:text-2xl">
+            {"cultures"}
+          </a>
+          <a href="/artists" class="text-xl lg:text-2xl">
+            {"artists"}
+          </a>
+          <a href="/about" class="text-xl lg:text-2xl">
+            {"about"}
+          </a>
+        </div>
+      </div>
+    </PagePadding>
+  </PageMaxWidth>
 </nav>
