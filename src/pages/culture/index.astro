@@ -1,4 +1,6 @@
 ---
+import DetailRow from "@components/DetailRow.astro";
+import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
 import NotFound from "@components/NotFound.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
@@ -15,7 +17,23 @@ const data = response?.data ?? [];
 <Layout title={culture ?? "Culture not found"}>
   <PageMaxWidth>
     <PagePadding>
-      {culture && !!data.length ? <Gallery data={data} /> : <NotFound />}
+      {
+        culture && !!data.length ? (
+          <div class="flex flex-col flex-1">
+            <div class="mt-[2%] mb-[3%]">
+              <DetailRow
+                title="Culture"
+                value={culture}
+                titleClassName="md:text-xl"
+                valueClassName="md:text-xl font-bold"
+              />
+            </div>
+            <Gallery data={data} />
+          </div>
+        ) : (
+          <NotFound />
+        )
+      }
     </PagePadding>
   </PageMaxWidth>
 </Layout>

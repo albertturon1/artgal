@@ -22,32 +22,21 @@ const creators = detailRowArrayValueWithFallback({
     };
   }),
 });
-
-const getTitle = (): string => {
-  const ratio =
-    (Number(artImagesData?.(item.images)?.height ?? 1) /
-      Number(artImagesData?.(item.images)?.width ?? 1)) *
-    1.1;
-
-  const ratioedLength = Math.floor(item.title.length * ratio);
-
-  if (item.title.length <= ratioedLength) return item.title;
-  return `${item.title.slice(0, ratioedLength)}...`;
-};
-const title = getTitle();
 ---
 
 <a
   href={`/artwork/${item.id.toString()}`}
   class={twMerge("flex flex-col cursor-pointer", itemClassName)}
 >
-  <div class="flex flex-col relative">
+  <div class="flex flex-col relative overflow-hidden">
     <Painting images={item.images} assignSizes />
     <div
       class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
     >
       <DetailRowArray
-        title={title}
+        title={item.title.length > 40
+          ? `${item.title.slice(0, 40)}...`
+          : item.title}
         titleClassName="text-lg"
         valueClassName="text-white/90"
         values={creators}
