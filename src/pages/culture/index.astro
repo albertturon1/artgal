@@ -15,7 +15,7 @@ const data = response?.data ?? [];
 <Layout title={culture ?? "Culture not found"}>
   <PageMaxWidth>
     <PagePadding>
-      {culture ? <Gallery data={data} /> : <NotFound />}
+      {culture && !!data.length ? <Gallery data={data} /> : <NotFound />}
     </PagePadding>
   </PageMaxWidth>
 </Layout>
