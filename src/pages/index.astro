@@ -4,10 +4,10 @@ export const prerender = true;
 import Gallery from "@components/Gallery.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
-import Painting from "@components/Painting.astro";
 import Layout from "@layouts/Layout.astro";
 import { getArtworks } from "src/api/ClevelandArtAPI";
-import HeaderImage from "public/images/index-page-header.jpg";
+import HeaderMobile from "@components/home/HeaderMobile.astro";
+import HeaderOverMobile from "@components/home/HeaderOverMobile.astro";
 
 const { data: response } = await getArtworks({
   limit: 25,
@@ -17,39 +17,11 @@ const data = response?.data ?? [];
 
 <Layout title="Explore Artgal">
   <PageMaxWidth>
+    <HeaderMobile />
     <PagePadding>
-      <div
-        class="flex flex-col sm:flex-row w-full mb-12 md:mb-[4%] gap-x-10 lg:gap-x-16 pt-3 gap-y-8"
-      >
-        <div class="flex flex-col lg:gap-y-3 max-w-full md:pt-[4%]">
-          <div
-            class="w-full flex flex-col text-3xl md:text-[3.8rem] lg:text-[4.2rem] leading-[2.5rem] md:leading-[4.3rem] lg:leading-[5rem] font-bold uppercase mb-3 md:mb-5"
-          >
-            <h1 class="">{"Explore Art"}</h1>
-            <h1 class="">{"Around the"}</h1>
-            <h1 class="">{"world"}</h1>
-          </div>
-          <div
-            class="md:text-lg lg:text-xl leading-[1.9rem] md:leading-[2.2rem] lg:leading-[2.5rem] max-w-3xl w-full uppercase"
-          >
-            <p>
-              {"Immerse yourself in a world of artistic brilliance."}
-            </p>
-            <p>
-              {"Explore stunning artworks and unleash your creativity."}
-            </p>
-            <p>
-              {"Start your journey today."}
-            </p>
-          </div>
-        </div>
-        <Painting
-          url={HeaderImage}
-          alt="Index page painting"
-          className="max-w-[40vw] max-h-[72.5vh] object-contain"
-        />
-      </div>
+      <HeaderOverMobile />
       <Gallery data={data} />
+      <PagePadding />
     </PagePadding>
   </PageMaxWidth>
 </Layout>

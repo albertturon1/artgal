@@ -1,0 +1,39 @@
+---
+import PagePadding from "@components/PagePadding.astro";
+import Painting from "@components/Painting.astro";
+import HeaderImage from "public/images/index-page-header.jpg";
+---
+
+<div class="flex w-full flex-col mb-[5%]">
+  <div class="relative bg-blue-300 md:hidden flex flex-col h-[85vh]">
+    <Painting
+      url={HeaderImage}
+      alt="Index page painting"
+      className="w-full object-cover h-full"
+    />
+    <div
+      class="w-full h-full absolute z-10 bg-black/60 text-white flex flex-col px-5 text-center justify-around gap-y-20"
+    >
+      <div class="flex flex-1 flex-col relative justify-center">
+        <div
+          class="w-full justify-center items-center flex flex-col text-[2.8rem] sm:text-[4rem] leading-[3.5rem] sm:leading-[4.8rem] font-bold uppercase"
+        >
+          <h1>{"Explore Art"}</h1>
+          <h1>{"Around the"}</h1>
+          <h1>{"world"}</h1>
+        </div>
+        <div class="absolute bottom-5 leading-[1.9rem] w-full uppercase py-5">
+          <p>
+            {"World of artistic brilliance."}
+          </p>
+          <p>
+            {"Stunning artworks."}
+          </p>
+          <p>
+            {"Artists in their class."}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
