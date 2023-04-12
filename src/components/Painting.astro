@@ -18,7 +18,7 @@ const imageSource = images ? artImagesData(images) : null;
         alt={alt}
         onerror={`this.onerror=null; this.src='${fallbackImg}'`}
         class={twMerge(
-          "object-contain w-full max-h-full max-w-full",
+          "object-contain w-full max-h-full max-w-full h-full",
           className
         )}
       />
@@ -32,7 +32,10 @@ const imageSource = images ? artImagesData(images) : null;
         height={assignSizes && imageSource.height}
         alt={imageSource.filename}
         onerror={`this.onerror=null; this.src='${fallbackImg}'`}
-        class={twMerge("object-contain max-h-full max-w-full", className)}
+        class={twMerge(
+          "object-contain w-full max-h-full max-w-fullh-full",
+          className
+        )}
       />
     )
   }

@@ -4,12 +4,12 @@ import Painting from "@components/Painting.astro";
 import HeaderImage from "public/images/index-page-header.jpg";
 ---
 
-<div class="flex w-full flex-col mb-[5%]">
-  <div class="relative bg-blue-300 md:hidden flex flex-col h-[85vh]">
+<div class="md:hidden flex w-full flex-col mb-[5%]">
+  <div class="relative flex flex-col h-[85vh]">
     <Painting
       url={HeaderImage}
       alt="Index page painting"
-      className="w-full object-cover h-full"
+      className="object-cover"
     />
     <div
       class="w-full h-full absolute z-10 bg-black/60 text-white flex flex-col px-5 text-center justify-around gap-y-20"
