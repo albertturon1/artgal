@@ -13,6 +13,7 @@ export type DetailRowValueProps = {
 export type DetailRowArrayValue = {
   value: string;
   hrefClassName?: string;
+  className?: string;
 } & Omit<CustomLinkProps, "className">;
 
 export type DetailRowArrayValuesProps = {

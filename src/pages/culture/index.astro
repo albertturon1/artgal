@@ -1,6 +1,5 @@
 ---
 import DetailRow from "@components/DetailRow.astro";
-import DetailRowTitle from "@components/DetailRowTitle.astro";
 import Gallery from "@components/Gallery.astro";
 import NotFound from "@components/NotFound.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
@@ -24,8 +23,7 @@ const data = response?.data ?? [];
               <DetailRow
                 title="Culture"
                 value={culture}
-                titleClassName="md:text-xl"
-                valueClassName="md:text-xl font-bold"
+                valueClassName="md:text-2xl uppercase"
               />
             </div>
             <Gallery data={data} />

@@ -34,7 +34,7 @@ const {
             className={twMerge(hrefClassName, row.hrefClassName)}
             resetHrefStyle={resetHrefStyle}
           >
-            <DetailRowValue className={valueClassName}>
+            <DetailRowValue className={twMerge(valueClassName, row.className)}>
               {row.value}
             </DetailRowValue>
           </CustomLink>
