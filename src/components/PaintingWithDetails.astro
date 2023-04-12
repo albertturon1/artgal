@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import Painting from "./Painting.astro";
 import type { PaintingWithDetailsProps } from "@interfaces/IComponentProps";
 import {
+  artImagesData,
   creatorFullname,
   detailRowArrayValueWithFallback,
 } from "src/utils/misc";
@@ -11,7 +12,6 @@ import DetailRowArray from "./DetailRowArray.astro";
 export type Props = PaintingWithDetailsProps;
 
 const { item, itemClassName = "", ...props } = Astro.props;
-const TITLE_LIMIT = 60;
 
 const creators = detailRowArrayValueWithFallback({
   data: item.creators.map((creator) => {
@@ -22,6 +22,19 @@ const creators = detailRowArrayValueWithFallback({
     };
   }),
 });
+
+const getTitle = (): string => {
+  const ratio =
+    (Number(artImagesData?.(item.images)?.height ?? 1) /
+      Number(artImagesData?.(item.images)?.width ?? 1)) *
+    1.1;
+
+  const ratioedLength = Math.floor(item.title.length * ratio);
+
+  if (item.title.length <= ratioedLength) return item.title;
+  return `${item.title.slice(0, ratioedLength)}...`;
+};
+const title = getTitle();
 ---
 
 <a
@@ -34,9 +47,7 @@ const creators = detailRowArrayValueWithFallback({
       class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
     >
       <DetailRowArray
-        title={item.title.length >= TITLE_LIMIT
-          ? `${item.title.slice(0, TITLE_LIMIT)}...`
-          : item.title}
+        title={title}
         titleClassName="text-lg"
         valueClassName="text-white/90"
         values={creators}
