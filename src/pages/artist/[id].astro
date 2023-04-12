@@ -7,12 +7,12 @@ import NotFound from "@components/NotFound.astro";
 import PageMaxWidth from "@components/PageMaxWidth.astro";
 import PagePadding from "@components/PagePadding.astro";
 import Layout from "@layouts/Layout.astro";
-import { getArtist, getArtworks } from "src/api/ClevelandArtAPI";
+import { getCreators, getArtworks } from "src/api/ClevelandArtAPI";
 
 const { id = "" } = Astro.params;
 const name = Astro.url.searchParams.get("name");
 
-const { data: artistResponse, isError: isError } = await getArtist({
+const { data: artistResponse, isError } = await getCreators({
   id,
 });
 const artist = artistResponse?.data;
