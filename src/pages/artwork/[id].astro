@@ -64,13 +64,11 @@ const artworks = creatorsArtworks
       ) : (
         <>
           <PagePadding>
-            <div class="flex flex-col md:flex-row w-full md:max-h-[72.5vh] gap-x-4 lg:gap-x-8 flex-wrap">
-              <div class="flex max-w-full md:max-w-2/3 h-max">
-                <Painting
-                  images={response.data.images}
-                  className="w-full h-full"
-                />
-              </div>
+            <div class="flex flex-col md:flex-row w-full gap-x-4 lg:gap-x-8 flex-wrap">
+              <Painting
+                images={response.data.images}
+                className="h-[72.5vh] object-contain"
+              />
               <div class="flex flex-col flex-1 gap-y-4 md:gap-y-4 pt-4 md:pt-1">
                 {creators && (
                   <DetailRowArray

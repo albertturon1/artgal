@@ -29,7 +29,7 @@ const creators = detailRowArrayValueWithFallback({
   class={twMerge("flex flex-col cursor-pointer", itemClassName)}
 >
   <div class="flex flex-col relative">
-    <Painting images={item.images} />
+    <Painting images={item.images} assignSizes />
     <div
       class="flex flex-col absolute bottom-0 z-10 bg-gradient-to-t from-zinc-800 w-full pb-3 pt-8 px-3 text-white"
     >

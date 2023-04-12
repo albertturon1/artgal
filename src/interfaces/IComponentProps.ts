@@ -74,6 +74,7 @@ export type ArtistArtworksProps = Pick<
 export type PaintingProps =
   | {
       images: Images;
+      assignSizes?: boolean;
       className?: string;
     }
   | {
