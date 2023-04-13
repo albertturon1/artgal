@@ -1,0 +1,71 @@
+---
+export const prerender = true;
+
+import type { DetailRowArrayValue } from "@interfaces/IComponentProps";
+import { getEntryBySlug } from "astro:content";
+import PageMaxWidth from "@components/PageMaxWidth.astro";
+import PagePadding from "@components/PagePadding.astro";
+import Layout from "@layouts/Layout.astro";
+import DetailRow from "@components/DetailRow.astro";
+import type { ArtistSchema } from "src/content/config";
+import DetailRowArray from "@components/DetailRowArray.astro";
+
+type AlphabetArtist = {
+  letter: string;
+  artists: ArtistSchema[];
+};
+
+const artistsCollection = await getEntryBySlug("artists", "artists");
+const artists = artistsCollection.data.artists;
+const artistsGrouped = artists.reduce((acc, item) => {
+  const [firstLetter] = item.description.slice(0, 1);
+
+  if (acc.findIndex((a) => a.letter === firstLetter) === -1) {
+    acc.push({
+      letter: firstLetter,
+      artists: [item],
+    });
+  } else {
+    const index = acc.findIndex((a) => a.letter === firstLetter);
+    acc[index].artists.push(item);
+  }
+  return acc;
+}, [] as AlphabetArtist[]);
+---
+
+<Layout title="Cultures">
+  <PageMaxWidth>
+    <PagePadding>
+      <div class="mt-[2%] mb-[3%]">
+        <DetailRow
+          title={`Explore artists from around the world`}
+          value={`There are ${artists.length} artists available to explore.`}
+          titleClassName="md:text-2xl uppercase mb-2"
+        />
+      </div>
+      <div class="flex flex-1 flex-col">
+        {
+          artistsGrouped.map((alphabetArtists) => {
+            const values = alphabetArtists.artists.map((artist) => {
+              return {
+                value: artist.description,
+                href: `/artist/${artist.id}?name=${artist.description}`,
+              };
+            }) satisfies DetailRowArrayValue[];
+
+            return (
+              <div class="flex flex-col w-full mb-10">
+                <DetailRowArray
+                  title={alphabetArtists.letter}
+                  titleClassName="md:text-3xl mb-1"
+                  valueClassName=""
+                  values={values}
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+    </PagePadding>
+  </PageMaxWidth>
+</Layout>

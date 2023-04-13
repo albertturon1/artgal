@@ -33,7 +33,13 @@ const artworks = artworksResponse?.data ?? [];
               <DetailRow title="Nationality" value={artist.nationality} />
               <DetailRow
                 title="Lifetime"
-                value={`${artist.birth_year}-${artist.death_year}`}
+                value={
+                  !artist.birth_year && !artist.death_year
+                    ? "Unknown"
+                    : `${artist.birth_year ?? "Unknown"}-${
+                        artist.death_year ?? "Unknown"
+                      }`
+                }
               />
               <DetailRow
                 containerClassName="text-xl"

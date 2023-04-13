@@ -159,8 +159,8 @@ export type Artist = {
   nationality: string;
   description: string;
   biography: string | null;
-  birth_year: string;
-  death_year: string;
+  birth_year: string | null;
+  death_year: string | null;
   id: number;
   artworks: ArtItem[];
 };
