@@ -1,6 +1,8 @@
 ---
 import PageMaxWidth from "./PageMaxWidth.astro";
 import PagePadding from "./PagePadding.astro";
+import NavbarMobile from "./navbar/NavbarMobile";
+import NavbarOverMobile from "./navbar/NavbarOverMobile.astro";
 ---
 
 <nav
@@ -8,24 +10,8 @@ import PagePadding from "./PagePadding.astro";
 >
   <PageMaxWidth>
     <PagePadding>
-      <div class="h-full flex items-center tracking-wider justify-between">
-        <a href="/" class="text-4xl h-full cursor-pointer">
-          <p class="font-bold uppercase text-3xl lg:text-4xl">
-            {"Artgal"}
-          </p>
-        </a>
-        <div class="gap-x-6 flex">
-          <a href="/cultures" class="text-xl lg:text-2xl">
-            {"cultures"}
-          </a>
-          <a href="/artists" class="text-xl lg:text-2xl">
-            {"artists"}
-          </a>
-          <a href="/about" class="text-xl lg:text-2xl">
-            {"about"}
-          </a>
-        </div>
-      </div>
+      <NavbarMobile client:visible />
+      <NavbarOverMobile />
     </PagePadding>
   </PageMaxWidth>
 </nav>
