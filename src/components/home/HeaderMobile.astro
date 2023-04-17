@@ -1,11 +1,11 @@
 ---
-import PagePadding from "@components/PagePadding.astro";
 import Painting from "@components/Painting.astro";
-import HeaderImage from "public/images/index-page-header.jpg";
+import HeaderImage from "/images/index-page-header.jpg";
 ---
 
 <div class="md:hidden flex w-full flex-col mb-[5%]">
-  <div class="relative flex flex-col h-[85vh]">
+  <!-- when changing height remeber to tae into account navbar height -->
+  <div class="relative flex flex-col h-[calc(100vh_-_64px)]">
     <Painting
       url={HeaderImage}
       alt="Index page painting"

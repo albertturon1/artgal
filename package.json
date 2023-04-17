@@ -10,11 +10,16 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^2.1.1",
     "@astrojs/tailwind": "^3.1.1",
     "@astrojs/vercel": "^3.2.2",
     "@fontsource/playfair-display": "^4.5.13",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "astro": "^2.2.0",
     "query-string": "^8.1.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "tailwind-merge": "^1.12.0",
     "tailwindcss": "^3.0.24"
   },
