@@ -17,7 +17,7 @@ const NavbarMobile = () => {
         </div>
       </a>
       {open ? (
-        <div className="gap-x-6 bg-black transition-all overflow-hidden w-screen h-screen top-0 left-0 fixed z-50 flex flex-col">
+        <div className="gap-x-6 bg-black transition-all overscroll-contain w-screen h-screen top-0 left-0 fixed z-50 flex flex-col">
           <div className="px-3 flex flex-1 flex-col">
             <div className="flex w-full h-16 justify-end items-center px-4">
               <NavbarMobileHamburger
@@ -34,9 +34,9 @@ const NavbarMobile = () => {
               <a className="text-xl" href="/artists">
                 {"artists"}
               </a>
-              <a className="text-xl" href="/about">
+              {/* <a className="text-xl" href="/about">
                 {"about"}
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
@@ -45,7 +45,6 @@ const NavbarMobile = () => {
           state={open}
           onClick={() => {
             setOpen((prev) => !prev);
-            document.body.style.overflow = open ? "auto" : "hidden";
           }}
         />
       )}
