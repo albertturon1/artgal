@@ -11,7 +11,9 @@ const NavbarMobile = () => {
           <h1 className="font-bold uppercase text-3xl leading-[2rem]">
             {"Artgal"}
           </h1>
-          <p className="text-[0.5rem] leading-[0.5rem] pl-0.5">{"by Albert Turoń"}</p>
+          <p className="text-[0.5rem] leading-[0.5rem] pl-0.5">
+            {"by Albert Turoń"}
+          </p>
         </div>
       </a>
       {open ? (
@@ -29,8 +31,12 @@ const NavbarMobile = () => {
               <a className="text-xl" href="/cultures">
                 {"cultures"}
               </a>
-              <a href="/artists">{"artists"}</a>
-              <a href="/about">{"about"}</a>
+              <a className="text-xl" href="/artists">
+                {"artists"}
+              </a>
+              <a className="text-xl" href="/about">
+                {"about"}
+              </a>
             </div>
           </div>
         </div>
