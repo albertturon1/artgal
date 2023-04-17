@@ -43,6 +43,7 @@ const { title } = Astro.props;
   }
   body {
     font-family: "eb-garamond", serif;
+    height: -webkit-fill-available;
   }
   .container {
     min-height: 100vh;
@@ -54,25 +55,4 @@ const { title } = Astro.props;
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
       DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
   }
-  /* Scrollbar styles */
-
-  /*
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) var(--secondary);
-  }
-
-  *::-webkit-scrollbar {
-    width: 13px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: var(--primary);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--secondary);
-    border-radius: 20px;
-    border: 3px solid var(--primary);
-  } */
 </style>
