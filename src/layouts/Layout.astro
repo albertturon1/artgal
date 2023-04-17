@@ -19,7 +19,7 @@ const { title } = Astro.props;
   </head>
   <body class="min-h-screen flex flex-col">
     <Navbar />
-    <div class="flex flex-1 flex-col">
+    <div class="flex flex-1 flex-col .container">
       <slot />
     </div>
   </body>
@@ -39,9 +39,16 @@ const { title } = Astro.props;
   html {
     font-family: system-ui, sans-serif;
     background-color: #f6f6f6;
+    height: -webkit-fill-available;
   }
   body {
     font-family: "eb-garamond", serif;
+  }
+  .container {
+    min-height: 100vh;
+    min-width: 100vw;
+    position: relative;
+    height: -webkit-fill-available;
   }
   code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono,

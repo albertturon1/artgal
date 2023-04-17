@@ -1,9 +1,4 @@
-import type {
-  AlternateImage,
-  ArtAlternateImage,
-  ArtImage,
-  Images,
-} from "@interfaces/IArt";
+import type { Images } from "@interfaces/IArt";
 import type { DetailRowArrayValue } from "@interfaces/IComponentProps";
 import queryString from "query-string";
 
